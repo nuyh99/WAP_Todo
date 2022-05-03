@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import PersonalRooms from "./Rooms/PersonalRooms";
-import RoomDetail from "./Rooms/RoomDetail";
+import PersonalRooms from "./RoomsList/PersonalRooms";
+import RoomDetail from "./RoomDetail/RoomDetail";
 
 function App() {
   return (
