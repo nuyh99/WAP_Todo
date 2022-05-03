@@ -10,8 +10,10 @@ const itemsFromBackend = [
   { id: uuid(), content: "알고리즘 과제", condition: "ready" },
   { id: uuid(), content: "운영체제 과제", condition: "processing" },
   { id: uuid(), content: "중간고사", condition: "done" },
-  { id: uuid(), content: "기말고사", condition: "defer" },
+  { id: uuid(), content: "기말고사", condition: "ready" },
   { id: uuid(), content: "팀프로젝트", condition: "ready" },
+  { id: uuid(), content: "팀프로젝트 중간발표", condition: "processing" },
+  { id: uuid(), content: "팀프로젝트 최종발표", condition: "defer" },
 ];
 
 const columnsFromBackend = {
@@ -28,13 +30,12 @@ const columnsFromBackend = {
     items: [],
   },
   defer: {
-    name: "보류",
+    name: "잠정 보류",
     items: [],
   },
 };
 
 itemsFromBackend.forEach((element) => {
-  console.log("Test");
   columnsFromBackend[element.condition].items.push(element);
 });
 
@@ -45,10 +46,17 @@ const onDragEnd = (result, columns, setColumns) => {
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
+
+    console.log(destColumn);
+
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
+    // Column이 다르면 condition을 변경
+    removed.condition = destination.droppableId;
+
     destItems.splice(destination.index, 0, removed);
+
     setColumns({
       ...columns,
       [source.droppableId]: {
@@ -89,7 +97,7 @@ function RoomDetail() {
     setToDoAdd({ ...toDoAdd, content: value });
   };
 
-  // 등록하기 버튼
+  // toDo 등록
   const toDoAddFunc = (e) => {
     e.preventDefault();
     columns["ready"].items.push({
@@ -102,11 +110,33 @@ function RoomDetail() {
     setIsClick((prev) => !prev);
   };
 
-  // 추가하기, 취소하기 버튼
+  // toDo 추가 및 취소
   const onClickAddOpen = () => {
     setIsClick((prev) => !prev);
     setToDoAdd({ ...toDoAdd, content: "" });
   };
+
+  // toDo 삭제
+  const toDoDeleteFunc = (e) => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      const { id, value } = e.target;
+
+      console.log(columns[id].name);
+      // const removeArr = columns[id].items;
+
+      // filter를 통해 내가 삭제를 원하는 item을 빼고 새 배열을 생성
+      const updateArr = columns[id].items.filter((delId) => delId.id !== value);
+
+      setColumns({
+        ...columns,
+        [id]: {
+          name: columns[id].name,
+          items: updateArr,
+        },
+      });
+    }
+  };
+
   return (
     <>
       <div
@@ -139,7 +169,8 @@ function RoomDetail() {
                               : "lightgrey",
                             padding: 4,
                             width: 250,
-                            minHeight: 500,
+                            minHeight: "400px",
+                            borderRadius: "20px 20px 20px 20px",
                           }}
                         >
                           {column.items.map((item, index) => {
@@ -165,12 +196,17 @@ function RoomDetail() {
                                           : "grey",
                                         color: "white",
                                         ...provided.draggableProps.style,
+                                        borderRadius: "20px 20px 20px 20px",
                                       }}
                                     >
                                       {item.content}
+
                                       <Button
                                         style={{ justifyContent: "right" }}
                                         color="error"
+                                        onClick={toDoDeleteFunc}
+                                        value={item.id}
+                                        id={item.condition}
                                       >
                                         X
                                       </Button>
