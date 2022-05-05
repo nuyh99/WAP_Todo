@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import AddTaskIcon from "@mui/icons-material/AddTask";
@@ -6,7 +6,8 @@ import { Button, TextField } from "@mui/material";
 import PublishIcon from "@mui/icons-material/Publish";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import RoomSetting from "./RoomSetting";
+import { useParams } from "react-router-dom";
 
 const itemsFromBackend = [
   {
@@ -199,10 +200,14 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 function RoomDetail() {
+  const a = useParams();
+  console.log(a);
+
+  // toDo 목록
   const [columns, setColumns] = useState(columnsFromBackend);
-
+  // 일정 추가하기 클릭 여부
   const [isClick, setIsClick] = useState(false);
-
+  // 일정 추가
   const [toDoAdd, setToDoAdd] = useState({
     condition: "ready",
     index: 0,
@@ -214,7 +219,6 @@ function RoomDetail() {
 
   // 일정 추가하기 및 취소 버튼
   const onClickAddOpen = (e) => {
-    const { name } = e.target;
     setIsClick((prev) => !prev);
     setToDoAdd({ title: "", content: "", date: "" });
   };
@@ -344,7 +348,23 @@ function RoomDetail() {
                                         borderRadius: "20px 20px 20px 20px",
                                       }}
                                     >
-                                      {item.title}
+                                      <div style={{ display: "inline" }}>
+                                        {item.title}
+                                      </div>
+                                      <Button
+                                        style={{
+                                          float: "right",
+                                          textAlign: "center",
+                                        }}
+                                        color="error"
+                                        onClick={toDoDeleteFunc}
+                                        value={item.id}
+                                        id={item.condition}
+                                        disableElevation
+                                        startIcon={<DeleteForeverIcon />}
+                                      >
+                                        삭제
+                                      </Button>
                                       <div
                                         style={{
                                           fontSize: "13px",
@@ -353,17 +373,6 @@ function RoomDetail() {
                                       >
                                         {item.date}
                                       </div>
-                                      <Button
-                                        style={{
-                                          justifytitle: "right",
-                                        }}
-                                        color="error"
-                                        onClick={toDoDeleteFunc}
-                                        value={item.id}
-                                        id={item.condition}
-                                      >
-                                        X
-                                      </Button>
                                     </div>
                                   );
                                 }}
@@ -381,7 +390,7 @@ function RoomDetail() {
           })}
         </DragDropContext>
       </div>
-      <div style={{ display: "flex", justifytitle: "center", height: "100%" }}>
+      <div style={{ textAlign: "center", height: "100%" }}>
         {isClick ? (
           <div>
             <form type="submit" onSubmit={toDoAddFunc}>
@@ -446,8 +455,8 @@ function RoomDetail() {
           </Button>
         )}
       </div>
-      <div style={{ display: "flex", justifytitle: "right" }}>
-        <Button endIcon={<SettingsApplicationsOutlinedIcon />}>설정</Button>
+      <div style={{ textAlign: "right" }}>
+        <RoomSetting />
       </div>
     </>
   );
