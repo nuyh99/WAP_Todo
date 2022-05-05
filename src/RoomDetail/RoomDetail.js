@@ -2,29 +2,84 @@ import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import AddTaskIcon from "@mui/icons-material/AddTask";
-import { Button, Input, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import PublishIcon from "@mui/icons-material/Publish";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { DesignServices } from "@mui/icons-material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
 
 const itemsFromBackend = [
-  { id: uuid(), content: "알고리즘 과제", condition: "ready", index: 0 },
-  { id: uuid(), content: "운영체제 과제", condition: "processing", index: 0 },
-  { id: uuid(), content: "중간고사", condition: "done", index: 0 },
-  { id: uuid(), content: "기말고사", condition: "ready", index: 1 },
-  { id: uuid(), content: "팀프로젝트", condition: "ready", index: 2 },
   {
+    condition: "ready",
+    index: 0,
+    title: "알고리즘",
+    content: "알고리즘 과제",
+    date: "2022-05-11",
+    isEdit: false,
     id: uuid(),
-    content: "팀프로젝트 중간발표",
+  },
+  {
+    condition: "processing",
+    index: 0,
+    title: "운영체제",
+    content: "O/S 과제",
+    date: "2022-05-14",
+    isEdit: false,
+    id: uuid(),
+  },
+  {
+    condition: "done",
+    index: 0,
+    title: "중간고사",
+    content: "중간고사대비",
+    date: "2022-05-20",
+    isEdit: false,
+    id: uuid(),
+  },
+  {
+    condition: "ready",
+    index: 1,
+    title: "기말고사",
+    content: "기말고사 대비",
+    date: "2022-05-07",
+    isEdit: false,
+    id: uuid(),
+  },
+  {
+    condition: "ready",
+    index: 2,
+    title: "팀프로젝트",
+    content: "팀프로젝트 대비",
+    date: "2022-05-14",
+    isEdit: false,
+    id: uuid(),
+  },
+  {
     condition: "processing",
     index: 1,
-  },
-  { id: uuid(), content: "팀프로젝트 최종발표", condition: "defer", index: 0 },
-  {
+    title: "파이썬",
+    content: "파이썬 공부",
+    date: "2022-05-30",
+    isEdit: false,
     id: uuid(),
-    content: "스포츠데이터의이해 과제",
+  },
+  {
+    condition: "defer",
+    index: 0,
+    title: "자바",
+    content: "자바공부",
+    date: "2022-06-30",
+    isEdit: false,
+    id: uuid(),
+  },
+  {
     condition: "ready",
     index: 3,
+    title: "스포츠데이터",
+    content: "스포츠데이터 과제",
+    date: "2022-07-02",
+    isEdit: false,
+    id: uuid(),
   },
 ];
 
@@ -51,6 +106,16 @@ itemsFromBackend.forEach((element) => {
   columnsFromBackend[element.condition].items.push(element);
 });
 
+// 05.05 수정중일 때 droppableId를 updating으로 변경
+const onDragStart = (result, columns, setColumns) => {
+  columns[result.source.droppableId].items.forEach((element) => {
+    if (element.id === result.draggableId) {
+      element.isEdit = true;
+      console.log(element.isEdit);
+    }
+  });
+};
+
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -62,6 +127,9 @@ const onDragEnd = (result, columns, setColumns) => {
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
+
+    // isEdit False로
+    removed.isEdit = false;
 
     // sourceItem의 index 재 정렬
     sourceItems.forEach((element) => {
@@ -102,6 +170,8 @@ const onDragEnd = (result, columns, setColumns) => {
     const copiedItems = [...column.items];
     const [removed] = copiedItems.splice(source.index, 1);
 
+    // isEdit False로
+    removed.isEdit = false;
     removed.index = destination.index;
 
     copiedItems.splice(destination.index, 0, removed);
@@ -134,33 +204,49 @@ function RoomDetail() {
   const [isClick, setIsClick] = useState(false);
 
   const [toDoAdd, setToDoAdd] = useState({
-    content: "",
+    condition: "ready",
     index: 0,
+    title: "",
+    content: "",
+    date: "",
+    isEdit: false,
   });
 
-  console.log(columns);
-
   // 일정 추가하기 및 취소 버튼
-  const onClickAddOpen = () => {
+  const onClickAddOpen = (e) => {
+    const { name } = e.target;
     setIsClick((prev) => !prev);
-    setToDoAdd({ ...toDoAdd, content: "" });
+    setToDoAdd({ title: "", content: "", date: "" });
   };
 
   // 일정 추가 Input
   const toDoInputFunc = (e) => {
+    console.log(e.target.name);
     const { name, value } = e.target;
-    setToDoAdd({ ...toDoAdd, content: value });
+    setToDoAdd({ ...toDoAdd, [name]: value });
   };
 
   // toDo 등록 버튼
   const toDoAddFunc = (e) => {
     e.preventDefault();
-    columns["ready"].items.push({
-      id: uuid(),
-      content: toDoAdd.content,
+    const newItem = {
       condition: "ready",
       index: columns["ready"].items.length,
+      title: toDoAdd.title,
+      content: toDoAdd.content,
+      date: toDoAdd.date,
+      isEdit: false,
+      id: uuid(),
+    };
+
+    setColumns({
+      ...columns,
+      ready: {
+        name: "진행 예정",
+        items: [...columns.ready.items, newItem],
+      },
     });
+
     console.log(columns["ready"].items);
 
     setIsClick((prev) => !prev);
@@ -199,11 +285,10 @@ function RoomDetail() {
 
   return (
     <>
-      <div
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
-      >
+      <div style={{ display: "flex", justifytitle: "center", height: "100%" }}>
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+          onDragStart={(result) => onDragStart(result, columns, setColumns)}
         >
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
@@ -259,10 +344,19 @@ function RoomDetail() {
                                         borderRadius: "20px 20px 20px 20px",
                                       }}
                                     >
-                                      {item.content}
-
+                                      {item.title}
+                                      <div
+                                        style={{
+                                          fontSize: "13px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        {item.date}
+                                      </div>
                                       <Button
-                                        style={{ justifyContent: "right" }}
+                                        style={{
+                                          justifytitle: "right",
+                                        }}
                                         color="error"
                                         onClick={toDoDeleteFunc}
                                         value={item.id}
@@ -287,22 +381,41 @@ function RoomDetail() {
           })}
         </DragDropContext>
       </div>
-      <div
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
-      >
+      <div style={{ display: "flex", justifytitle: "center", height: "100%" }}>
         {isClick ? (
           <div>
             <form type="submit" onSubmit={toDoAddFunc}>
               <TextField
                 autoFocus
                 margin="dense"
-                name="toDoName"
-                label="toDoName"
+                name="title"
+                label="ToDo 제목"
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={toDoInputFunc}
+                value={toDoAdd.title}
+                required
+              />
+              <TextField
+                margin="dense"
+                name="content"
+                label="ToDo 내용"
                 type="text"
                 fullWidth
                 variant="standard"
                 onChange={toDoInputFunc}
                 value={toDoAdd.content}
+                required
+              />
+              <TextField
+                margin="dense"
+                name="date"
+                type="date"
+                fullWidth
+                variant="standard"
+                onChange={toDoInputFunc}
+                value={toDoAdd.date}
                 required
               />
               <Button
@@ -332,6 +445,9 @@ function RoomDetail() {
             일정 추가하기
           </Button>
         )}
+      </div>
+      <div style={{ display: "flex", justifytitle: "right" }}>
+        <Button endIcon={<SettingsApplicationsOutlinedIcon />}>설정</Button>
       </div>
     </>
   );
