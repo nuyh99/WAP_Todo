@@ -1,49 +1,35 @@
 package Wap.Todo.domain;
 
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Getter @Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "member")
 public class Member {
+    @Id
+    @Column(length = 20)
     private String id;
+
+    @Column(length = 65)
     private String pw;
+
+    @Column(length = 10)
     private String name;
 
-    public Member() {
-    }
-
-    public Member(String id, String pw, String name) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id='" + id + '\'' +
-                ", pw='" + pw + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPw() {
-        return pw;
-    }
-
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "member_room",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_num"))
+    private Set<Room> rooms = new HashSet<>();
 }
