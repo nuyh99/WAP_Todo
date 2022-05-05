@@ -10,6 +10,7 @@ const Rooms = () => {
   const [rooms, setRooms] = useState([
     { roomName: "test1", roomIntro: "test1 intros", roomId: "a1" },
     { roomName: "test2", roomIntro: "test2 intros", roomId: "b2" },
+    { roomName: "테스트4", roomIntro: "test3 intros", roomId: "bb5" },
   ]);
 
   const addRoomFunc = (room) => {
