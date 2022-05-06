@@ -19,17 +19,11 @@ import static org.assertj.core.api.Assertions.*;
 class RoomServiceTest {
     private final UserService userService;
     private final RoomService roomService;
-    private final MemberRepository memberRepository;
-    private final RoomRepository roomRepository;
-    private final TodoRepository todoRepository;
 
     @Autowired
     public RoomServiceTest(MemberRepository memberRepository, RoomRepository roomRepository, UserService userService, RoomService roomService, TodoRepository todoRepository) {
         this.userService = userService;
-        this.memberRepository = memberRepository;
-        this.roomRepository = roomRepository;
         this.roomService = roomService;
-        this.todoRepository = todoRepository;
     }
 
     @Transactional
@@ -84,9 +78,35 @@ class RoomServiceTest {
                 .content("dfjklsdjklf")
                 .build();
 
-        roomService.updateTodo(room.getNum(), todo, member.getId());
+        //when
+        todo=roomService.updateTodo(room.getNum(), todo, member.getId());    //방에 투두 추가
+
+        System.out.println(todo);
+        System.out.println(room);
+
+        //then
+        assertThat(roomService.getTodos(room.getNum()).size()).isEqualTo(1);    //방의 투두 갯수=1
+        roomService.deleteTodo(room.getNum(), todo.getId());                    //방의 투두 삭제
+        assertThat(roomService.getTodos(room.getNum()).size()).isEqualTo(0);    //방의 투두 갯수=0
+    }
+
+    @Transactional
+    @Test
+    @DisplayName("투두 삭제")
+    public void deleteTodo() {
+        //given
+        Member member = new Member("id", "pw", "name", null);
+        member = userService.join(member);        //회원가입
+        Room room = roomService.joinRoom("test", member.getId());   //방 생성
+        Todo todo = Todo.builder()
+                .content("dfjklsdjklf")
+                .build();
+        todo=roomService.updateTodo(room.getNum(), todo, member.getId());    //방에 투두 추가
 
         //when
-        assertThat(roomService.getTodos(room.getNum()).size()).isEqualTo(1);
+        roomService.deleteTodo(room.getNum(), todo.getId());                 //투두 삭제
+
+        //then
+        assertThat(roomService.getTodos(room.getNum()).size()).isEqualTo(0); //방의 투두 갯수=0
     }
 }
