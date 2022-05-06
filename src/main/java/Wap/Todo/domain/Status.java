@@ -1,6 +1,8 @@
 package Wap.Todo.domain;
 
 public enum Status {
-    WORKING,
-    FINISHED
+    READY,
+    PROCESSING,
+    DONE,
+    DEFER
 }

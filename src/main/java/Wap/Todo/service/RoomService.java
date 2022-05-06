@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -52,6 +53,7 @@ public class RoomService {
                 .master(id)
                 .introduce(introduce)
                 .code(generatedString)
+                .todos(new ArrayList<>())
                 .build();
 
         Room result = roomRepository.save(room);
@@ -70,8 +72,8 @@ public class RoomService {
         if(room.size()==0)
             return null;
 
-        memberRepository.getById(id).getRooms().add((Room) room);
-        return (Room)room;
+        memberRepository.getById(id).getRooms().add(room.get(0));
+        return room.get(0);
     }
 
     //방 입장 하기
@@ -83,11 +85,13 @@ public class RoomService {
     //투두 등록 및 수정
     @Transactional
     public Todo updateTodo(Long num, Todo todo, String id) {
-        if (todoRepository.existsById(todo.getId())) {      //투두 수정
+        if (todo.getId()!=null&&todoRepository.existsById(todo.getId())) {      //투두 수정
             Todo byId = todoRepository.getById(todo.getId());
             byId.setDeadline(todo.getDeadline());
             byId.setContent(todo.getContent());
             byId.setLastUpdateId(id);
+            byId.setStatus(todo.getStatus());
+            byId.setEditing(todo.isEditing());
 
             todoRepository.save(byId);
             return byId;
@@ -102,6 +106,7 @@ public class RoomService {
                     .build();
 
             todoRepository.save(result);
+            roomRepository.getById(num).getTodos().add(result);
             return result;
         }
     }
@@ -112,6 +117,7 @@ public class RoomService {
         Optional<Todo> byId = todoRepository.findById(id);
 
         if (byId.isPresent()) {
+            roomRepository.getById(num).getTodos().remove(byId.get());
             todoRepository.deleteById(id);
             return byId.get();
         }
