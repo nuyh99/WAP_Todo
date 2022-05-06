@@ -27,7 +27,7 @@ public class  Member {
     @Column(length = 10)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "member_room",
             joinColumns = @JoinColumn(name = "member_id"),
