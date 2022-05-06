@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 
 @Controller
@@ -44,12 +46,11 @@ public class RoomController {
     //방 초대받기
     @GetMapping("/invite")
     @ResponseBody
-    public String inviteRoom(@RequestBody String code, HttpSession session){
+    public String inviteRoom(@RequestBody Map<String, String> code, HttpSession session){
 
 
         String id = (String)session.getAttribute("memberId");
-        System.out.println("id"+id);
-        Room room = roomService.attend(code, id);
+        Room room = roomService.attend(code.get("code"), id);
         if(room == null)
             return null;
         return room.toString();
