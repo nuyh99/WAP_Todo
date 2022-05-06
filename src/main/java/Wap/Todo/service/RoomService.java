@@ -1,25 +1,25 @@
 package Wap.Todo.service;
 
-import Wap.Todo.domain.Member;
-import Wap.Todo.domain.MemberRepository;
-import Wap.Todo.domain.Room;
-import Wap.Todo.domain.RoomRepository;
+import Wap.Todo.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 
 @Service
 public class RoomService {
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
+    private final TodoRepository todoRepository;
 
     @Autowired
-    public RoomService(MemberRepository memberRepository, RoomRepository roomRepository) {
+    public RoomService(MemberRepository memberRepository, RoomRepository roomRepository, TodoRepository todoRepository) {
         this.memberRepository = memberRepository;
         this.roomRepository = roomRepository;
+        this.todoRepository = todoRepository;
     }
 
     //방 삭제
@@ -32,6 +32,8 @@ public class RoomService {
 
                 member.getRooms().remove(room);
                 roomRepository.deleteById(num);
+
+                return num;
             }
 
         return null;
@@ -52,6 +54,68 @@ public class RoomService {
                 .code(generatedString)
                 .build();
 
-        return roomRepository.save(room);
+        Room result = roomRepository.save(room);
+        memberRepository.getById(id).getRooms().add(result);
+
+        return result;
+    }
+
+    //방 초대 받기
+    @Transactional
+    public Room attend(String code, String id) {
+        List<Room> room = roomRepository.findAll().stream()
+                .filter(o -> o.getCode().equals(code))
+                .toList();
+
+        if(room.size()==0)
+            return null;
+
+        memberRepository.getById(id).getRooms().add((Room) room);
+        return (Room)room;
+    }
+
+    //방 입장 하기
+    @Transactional
+    public List<Todo> getTodos(Long num) {
+        return roomRepository.getById(num).getTodos();
+    }
+
+    //투두 등록 및 수정
+    @Transactional
+    public Todo updateTodo(Long num, Todo todo, String id) {
+        if (todoRepository.existsById(todo.getId())) {      //투두 수정
+            Todo byId = todoRepository.getById(todo.getId());
+            byId.setDeadline(todo.getDeadline());
+            byId.setContent(todo.getContent());
+            byId.setLastUpdateId(id);
+
+            todoRepository.save(byId);
+            return byId;
+        } else {                                            //투두 등록
+            Todo result=Todo.builder()
+                    .room(roomRepository.getById(num))
+                    .content(todo.getContent())
+                    .deadline(todo.getDeadline())
+                    .lastUpdateId(id)
+                    .isEditing(false)
+                    .status(todo.getStatus())
+                    .build();
+
+            todoRepository.save(result);
+            return result;
+        }
+    }
+
+    //투두 삭제
+    @Transactional
+    public Todo deleteTodo(Long num, Long id) {
+        Optional<Todo> byId = todoRepository.findById(id);
+
+        if (byId.isPresent()) {
+            todoRepository.deleteById(id);
+            return byId.get();
+        }
+
+        return null;
     }
 }
