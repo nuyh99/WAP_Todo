@@ -37,11 +37,11 @@ public class RoomService {
                         .forEach(o -> o.getRooms().remove(room));
 
                 roomRepository.deleteById(num);
-
-                return num;
+            } else {
+                memberRepository.getById(id).getRooms().remove(roomRepository.getById(num));
             }
 
-        return null;
+        return num;
     }
 
     //방 만들기
