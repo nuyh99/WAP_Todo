@@ -1,17 +1,12 @@
 package Wap.Todo.service;
 
 import Wap.Todo.domain.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -19,11 +14,13 @@ import static org.assertj.core.api.Assertions.*;
 class RoomServiceTest {
     private final UserService userService;
     private final RoomService roomService;
+    private final RoomRepository roomRepository;
 
     @Autowired
-    public RoomServiceTest(MemberRepository memberRepository, RoomRepository roomRepository, UserService userService, RoomService roomService, TodoRepository todoRepository) {
+    public RoomServiceTest(MemberRepository memberRepository, RoomRepository roomRepository, UserService userService, RoomService roomService, TodoRepository todoRepository, RoomRepository roomRepository1) {
         this.userService = userService;
         this.roomService = roomService;
+        this.roomRepository = roomRepository1;
     }
 
     @Transactional
@@ -57,6 +54,7 @@ class RoomServiceTest {
 
         Room room = roomService.joinRoom("test", member.getId());
         System.out.println(room);               //방 생성
+
 
         //when
         Room attend = roomService.attend(room.getCode(), member2.getId());
