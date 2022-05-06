@@ -42,13 +42,16 @@ public class RoomController {
     }
 
     //방 초대받기
-    @GetMapping("/{invite_code}")
+    @GetMapping("/invite")
     @ResponseBody
-    public String inviteRoom(@PathVariable("invite_code") String code, HttpSession session){
+    public String inviteRoom(@RequestBody String code, HttpSession session){
 
 
         String id = (String)session.getAttribute("memberId");
+        System.out.println("id"+id);
         Room room = roomService.attend(code, id);
+        if(room == null)
+            return null;
         return room.toString();
     }
 

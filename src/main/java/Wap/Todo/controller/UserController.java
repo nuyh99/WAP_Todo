@@ -47,6 +47,15 @@ public class UserController {
         return login.toString();
     }
 
+    @GetMapping("/logout")
+    @ResponseBody
+    public String dologout(HttpSession session){
+
+        session.invalidate();
+
+        return "Success";
+    }
+
     //방 목록 조회
     @GetMapping("/rooms")
     @ResponseBody
