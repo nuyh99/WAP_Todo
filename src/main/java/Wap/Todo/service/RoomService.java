@@ -26,12 +26,16 @@ public class RoomService {
     //방 삭제
     @Transactional
     public Long deleteRoom(Long num, String id) {
-        if(roomRepository.existsById(num))      //해당 방이 존재하면
+        if (roomRepository.existsById(num))      //해당 방이 존재하면
             if (roomRepository.getById(num).getMaster().equals(id)) {   //방의 master가 세션의 id와 같으면
-                Room room=roomRepository.getById(num);
+                Room room = roomRepository.getById(num);
                 Member member = memberRepository.getById(id);
 
                 member.getRooms().remove(room);
+                memberRepository.findAll().stream()
+                        .filter(o -> o.getRooms().contains(room))
+                        .forEach(o -> o.getRooms().remove(room));
+
                 roomRepository.deleteById(num);
 
                 return num;
@@ -69,7 +73,7 @@ public class RoomService {
                 .filter(o -> o.getCode().equals(code))
                 .toList();
 
-        if(room.size()==0)
+        if (room.size() == 0)
             return null;
 
         memberRepository.getById(id).getRooms().add(room.get(0));
@@ -85,7 +89,7 @@ public class RoomService {
     //투두 등록 및 수정
     @Transactional
     public Todo updateTodo(Long num, Todo todo, String id) {
-        if (todo.getId()!=null&&todoRepository.existsById(todo.getId())) {      //투두 수정
+        if (todo.getId() != null && todoRepository.existsById(todo.getId())) {      //투두 수정
             Todo byId = todoRepository.getById(todo.getId());
             byId.setDeadline(todo.getDeadline());
             byId.setContent(todo.getContent());
@@ -95,7 +99,7 @@ public class RoomService {
 
             return todoRepository.save(byId);
         } else {                                            //투두 등록
-            Todo result=Todo.builder()
+            Todo result = Todo.builder()
                     .room(roomRepository.getById(num))
                     .content(todo.getContent())
                     .deadline(todo.getDeadline())
@@ -104,7 +108,7 @@ public class RoomService {
                     .status(todo.getStatus())
                     .build();
 
-            result=todoRepository.save(result);
+            result = todoRepository.save(result);
             roomRepository.getById(num).getTodos().add(result);
             return result;
         }
