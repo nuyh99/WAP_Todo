@@ -93,8 +93,7 @@ public class RoomService {
             byId.setStatus(todo.getStatus());
             byId.setEditing(todo.isEditing());
 
-            todoRepository.save(byId);
-            return byId;
+            return todoRepository.save(byId);
         } else {                                            //투두 등록
             Todo result=Todo.builder()
                     .room(roomRepository.getById(num))
@@ -105,7 +104,7 @@ public class RoomService {
                     .status(todo.getStatus())
                     .build();
 
-            todoRepository.save(result);
+            result=todoRepository.save(result);
             roomRepository.getById(num).getTodos().add(result);
             return result;
         }

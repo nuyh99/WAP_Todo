@@ -1,14 +1,12 @@
 package Wap.Todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,4 +28,17 @@ public class Todo {
 
     @Column(length = 20)
     private String lastUpdateId;
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id=" + id +
+                ", room=" + room.getNum() +
+                ", deadline=" + deadline +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                ", isEditing=" + isEditing +
+                ", lastUpdateId='" + lastUpdateId + '\'' +
+                '}';
+    }
 }
