@@ -26,7 +26,7 @@ public class RoomService {
     //방 삭제
     @Transactional
     public Long deleteRoom(Long num, String id) {
-        if (roomRepository.existsById(num))      //해당 방이 존재하면
+        if (roomRepository.existsById(num)) {      //해당 방이 존재하면
             if (roomRepository.getById(num).getMaster().equals(id)) {   //방의 master가 세션의 id와 같으면
                 Room room = roomRepository.getById(num);
                 Member member = memberRepository.getById(id);
@@ -41,7 +41,10 @@ public class RoomService {
                 memberRepository.getById(id).getRooms().remove(roomRepository.getById(num));
             }
 
-        return num;
+            return num;
+        }
+
+        return null;
     }
 
     //방 만들기
