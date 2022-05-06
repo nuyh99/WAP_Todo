@@ -2,35 +2,30 @@ package Wap.Todo.controller;
 
 
 import Wap.Todo.domain.Member;
+import Wap.Todo.domain.Room;
 import Wap.Todo.service.UserService;
+import lombok.experimental.Delegate;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import java.util.List;
 
-@Controller("/")
+@Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("asd")
-    public String Test2(HttpServletRequest request){
-        HttpSession session = request.getSession();
-
-        session.setAttribute("sad", "123");
-
-        return "Success";
-    }
 
     //회원가입
-    @PostMapping ("register")
-    public String Test1(@RequestBody Member member){
+    @PostMapping ("/register")
+    public String register(@RequestBody Member member){
 
         Member mem = userService.join(member);
 
@@ -39,9 +34,9 @@ public class UserController {
 
 
     //로그인
-    @PostMapping("login")
+    @PostMapping("/login")
     @ResponseBody
-    public String Test(@RequestBody Member member, HttpSession session){
+    public String dologin(@RequestBody Member member, HttpSession session){
         Member login = userService.login(member);
         if(login == null)
             return null;
@@ -51,15 +46,16 @@ public class UserController {
         return login.toString();
     }
 
-
-    @GetMapping("/room/invite")
+    //방 목록 조회
+    @GetMapping("/rooms")
     @ResponseBody
-    public String invite_room(HttpSession session){
+    public List<Room> roomView(HttpSession session){
 
-        Object member = session.getAttribute("memberId");
-        if(member == null)
-            return null;
+        String id = (String)session.getAttribute("memberId");
 
-        return member.toString();
+        List<Room> rooms = userService.getRoomsById(id);
+
+        return rooms;
     }
+
 }
