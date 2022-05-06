@@ -25,6 +25,7 @@ public class UserController {
 
     //회원가입
     @PostMapping ("/register")
+    @ResponseBody
     public String register(@RequestBody Member member){
 
         Member mem = userService.join(member);
