@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "member")
-public class Member {
+public class  Member {
     @Id
     @Column(length = 20)
     private String id;
