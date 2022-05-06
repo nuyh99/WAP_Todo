@@ -7,6 +7,7 @@ import Wap.Todo.domain.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class UserService {
         if(memberRepository.existsById(member.getId()))
             return null;
 
+        member.setRooms(new HashSet<>());
         return memberRepository.save(member);
     }
 
