@@ -19,38 +19,36 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     //회원가입
     @PostMapping ("/register")
     @ResponseBody
-    public String register(@RequestBody Member member){
-
-        Member mem = userService.join(member);
-
-        return mem.toString();
+    public Member register(@RequestBody Member member){
+        return userService.join(member);
     }
-
 
     //로그인
     @PostMapping("/login")
     @ResponseBody
-    public String dologin(@RequestBody Member member, HttpSession session){
+    public Member login(@RequestBody Member member, HttpSession session){
         Member login = userService.login(member);
         if(login == null)
             return null;
 
         session.setAttribute("memberId", member.getId());
 
-        return login.toString();
+        return login;
     }
 
     @GetMapping("/logout")
     @ResponseBody
-    public String dologout(HttpSession session){
-
+    public String logout(HttpSession session){
         session.invalidate();
 
         return "Success";
@@ -60,12 +58,9 @@ public class UserController {
     @GetMapping("/rooms")
     @ResponseBody
     public List<Room> roomView(HttpSession session){
-
         String id = (String)session.getAttribute("memberId");
 
-        List<Room> rooms = userService.getRoomsById(id);
-
-        return rooms;
+        return userService.getRoomsById(id);
     }
 
 }

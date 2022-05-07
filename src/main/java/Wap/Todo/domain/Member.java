@@ -27,7 +27,10 @@ public class  Member {
     @Column(length = 10)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Column(length = 30)
+    private String email;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "member_room",
             joinColumns = @JoinColumn(name = "member_id"),

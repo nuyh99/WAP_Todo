@@ -28,7 +28,7 @@ class RoomServiceTest {
     @DisplayName("방 삭제")
     public void deleteRoom() {
         //given
-        Member member = new Member("id", "pw", "name", null);
+        Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
 
         Room room = roomService.joinRoom("test", member.getId());
@@ -47,9 +47,9 @@ class RoomServiceTest {
     @DisplayName("방 초대 받기")
     public void invitingUser() {
         //given
-        Member member = new Member("id", "pw", "name", null);
+        Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
-        Member member2 = new Member("id2", "pw", "name", null);
+        Member member2 = new Member("id2", "pw", "name", null, null);
         member2 = userService.join(member2);        //회원가입
 
         Room room = roomService.joinRoom("test", member.getId());
@@ -69,7 +69,7 @@ class RoomServiceTest {
     @DisplayName("투두 받기")
     public void getTodos() {
         //given
-        Member member = new Member("id", "pw", "name", null);
+        Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
         Room room = roomService.joinRoom("test", member.getId());   //방 생성
         Todo todo = Todo.builder()
@@ -93,7 +93,7 @@ class RoomServiceTest {
     @DisplayName("투두 삭제")
     public void deleteTodo() {
         //given
-        Member member = new Member("id", "pw", "name", null);
+        Member member = new Member("id", "pw", "name",null, null);
         member = userService.join(member);        //회원가입
         Room room = roomService.joinRoom("test", member.getId());   //방 생성
         Todo todo = Todo.builder()

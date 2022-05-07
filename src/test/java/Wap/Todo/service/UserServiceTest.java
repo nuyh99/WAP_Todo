@@ -30,7 +30,7 @@ class UserServiceTest {
     @DisplayName("회원가입")
     public void join() {
         //given
-        Member member = new Member("test", "123", "헤헤", null);
+        Member member = new Member("test", "123", "헤헤", null,null);
 
         //when
         userService.join(member);
@@ -44,8 +44,8 @@ class UserServiceTest {
     @DisplayName("중복 회원가입")
     public void duplicateJoin() {
         //given
-        Member member = new Member("test", "123", "헤헤", null);
-        Member member2 = new Member("test", "123", "헤헤", null);
+        Member member = new Member("test", "123", "헤헤", null,null);
+        Member member2 = new Member("test", "123", "헤헤", null,null);
 
         //when
         userService.join(member);
@@ -59,9 +59,9 @@ class UserServiceTest {
     @DisplayName("로그인")
     public void login() {
         //given
-        Member member = new Member("test", "123", "헤헤", null);
-        Member toLogin = new Member("test", "123", null, null);
-        Member toLogin2 = new Member("test", "1234", null, null);
+        Member member = new Member("test", "123", "헤헤",null, null);
+        Member toLogin = new Member("test", "123", null,null, null);
+        Member toLogin2 = new Member("test", "1234", null,null, null);
 
         //when
         userService.join(member);
@@ -77,7 +77,7 @@ class UserServiceTest {
     @DisplayName("방 목록 가져오기")
     public void getRooms() {
         //given
-        Member member = new Member("test", "123", "헤헤", null);
+        Member member = new Member("test", "123", "헤헤", null,null);
         Room room=new Room();
         room.setNum(5L);
 

@@ -6,9 +6,11 @@ import Wap.Todo.domain.Room;
 import Wap.Todo.domain.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,6 +24,7 @@ public class UserService {
     }
 
     //Member 회원가입
+    @Transactional
     public Member join(Member member) {
         if(memberRepository.existsById(member.getId()))
             return null;
@@ -31,19 +34,21 @@ public class UserService {
     }
 
     //로그인 id, pw 확인
+    @Transactional
     public Member login(Member member) {
         if(memberRepository.existsById(member.getId())) {
-            Member expected = memberRepository.getById(member.getId());
-
-            if(member.getPw().equals(expected.getPw()))
-                return expected;
+            Optional<Member> byId = memberRepository.findById(member.getId());
+            if(byId.isPresent() && member.getPw().equals(byId.get().getPw()))
+                return byId.get();
         }
 
         return null;
     }
 
     //방 목록 조회
+    @Transactional
     public List<Room> getRoomsById(String id) {
-        return memberRepository.getById(id).getRooms().stream().toList();
+        Optional<Member> byId = memberRepository.findById(id);
+        return byId.map(member -> member.getRooms().stream().toList()).orElse(null);
     }
 }
