@@ -12,12 +12,17 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import { useParams } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const RoomSetting = () => {
+  // 방 url을 가져와서 초대코드 생성
+  const param = useParams();
+  const room_Id = param.roomid;
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -67,10 +72,7 @@ const RoomSetting = () => {
           </ListItem>
           <Divider />
           <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
+            <ListItemText primary="초대코드" secondary={room_Id} />
           </ListItem>
         </List>
       </Dialog>

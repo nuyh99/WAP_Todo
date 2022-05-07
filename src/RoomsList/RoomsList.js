@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserDispatch } from "./PersonalRooms";
 
 const RoomsList = (prop) => {
   prop.rooms.map((intro) => console.log(intro.roomName));
-
   return (
     <div>
       <h1>방목록</h1>

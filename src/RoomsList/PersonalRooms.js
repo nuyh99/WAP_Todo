@@ -1,27 +1,48 @@
-import { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddRoom from "./AddRoom";
 import RoomsList from "./RoomsList";
 
-const Rooms = () => {
-  const id = useParams();
+// useReducer
+const reducer = (state, action) => {
+  console.log(action);
+  console.log(state);
+  switch (action.type) {
+    case "GET_ROOM_LIST":
+      return state;
+    case "ADD_ROOM_LIST":
+      return [...state, action.room];
+    case "GET_ROOM_NAME":
+      const room_name = state.forEach((element) => {
+        return element.roomId === action.roomId;
+      });
+      return room_name;
+    default:
+      return state;
+  }
+};
 
+export const UserDispatch = React.createContext(null);
+
+const Rooms = () => {
   const [userId, setUserId] = useState("test");
-  const [rooms, setRooms] = useState([
+
+  // 초기 방 가져오기
+  const rooms = [
     { roomName: "test1", roomIntro: "test1 intros", roomId: "a1" },
     { roomName: "test2", roomIntro: "test2 intros", roomId: "b2" },
     { roomName: "테스트4", roomIntro: "test3 intros", roomId: "bb5" },
-  ]);
+  ];
 
-  const addRoomFunc = (room) => {
-    setRooms([...rooms, room]);
-  };
+  const [roomList, dispatch] = useReducer(reducer, rooms);
 
   return (
     <div>
       접속중인 아이디 : {userId}
-      <AddRoom addRoomFunc={addRoomFunc} />
-      <RoomsList rooms={rooms} />
+      <UserDispatch.Provider value={dispatch}>
+        <AddRoom />
+        <RoomsList rooms={roomList} />
+      </UserDispatch.Provider>
     </div>
   );
 };

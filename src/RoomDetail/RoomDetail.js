@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import AddTaskIcon from "@mui/icons-material/AddTask";
@@ -7,7 +7,6 @@ import PublishIcon from "@mui/icons-material/Publish";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RoomSetting from "./RoomSetting";
-import { useParams } from "react-router-dom";
 
 const itemsFromBackend = [
   {
@@ -151,9 +150,6 @@ const onDragEnd = (result, columns, setColumns) => {
     });
     destItems.splice(destination.index, 0, removed);
 
-    console.log(sourceItems);
-    console.log(destItems);
-
     setColumns({
       ...columns,
       [source.droppableId]: {
@@ -200,9 +196,6 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 function RoomDetail() {
-  const a = useParams();
-  console.log(a);
-
   // toDo 목록
   const [columns, setColumns] = useState(columnsFromBackend);
   // 일정 추가하기 클릭 여부
@@ -225,7 +218,6 @@ function RoomDetail() {
 
   // 일정 추가 Input
   const toDoInputFunc = (e) => {
-    console.log(e.target.name);
     const { name, value } = e.target;
     setToDoAdd({ ...toDoAdd, [name]: value });
   };
@@ -289,7 +281,12 @@ function RoomDetail() {
 
   return (
     <>
-      <div style={{ display: "flex", justifytitle: "center", height: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
           onDragStart={(result) => onDragStart(result, columns, setColumns)}
@@ -317,9 +314,9 @@ function RoomDetail() {
                               ? "skyblue"
                               : "lightgrey",
                             padding: 4,
-                            width: 250,
+                            width: "350px",
                             minHeight: "400px",
-                            borderRadius: "20px 20px 20px 20px",
+                            borderRadius: "25px 25px 25px 25px",
                           }}
                         >
                           {column.items.map((item, index) => {
@@ -343,12 +340,18 @@ function RoomDetail() {
                                         backgroundColor: snapshot.isDragging
                                           ? "#3c473a"
                                           : "grey",
-                                        color: "white",
+                                        color: "black",
                                         ...provided.draggableProps.style,
-                                        borderRadius: "20px 20px 20px 20px",
+                                        borderRadius: "25px 25px 25px 25px",
                                       }}
                                     >
-                                      <div style={{ display: "inline" }}>
+                                      <div
+                                        style={{
+                                          whiteSpace: "nowrap",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                        }}
+                                      >
                                         {item.title}
                                       </div>
                                       <Button
@@ -368,6 +371,17 @@ function RoomDetail() {
                                       <div
                                         style={{
                                           fontSize: "13px",
+                                          color: "white",
+                                          whiteSpace: "nowrap",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                        }}
+                                      >
+                                        {item.content}
+                                      </div>
+                                      <div
+                                        style={{
+                                          fontSize: "11px",
                                           color: "black",
                                         }}
                                       >
@@ -392,7 +406,13 @@ function RoomDetail() {
       </div>
       <div style={{ textAlign: "center", height: "100%" }}>
         {isClick ? (
-          <div>
+          <div
+            style={{
+              maxWidth: "500px",
+              display: "inline-block",
+              textAlign: "center",
+            }}
+          >
             <form type="submit" onSubmit={toDoAddFunc}>
               <TextField
                 autoFocus

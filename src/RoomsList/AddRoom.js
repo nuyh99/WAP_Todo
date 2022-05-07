@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -11,9 +11,16 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
 
-const AddRoom = (prop) => {
+import { UserDispatch } from "./PersonalRooms";
+import uuid from "react-uuid";
+
+const AddRoom = () => {
   const [open, setOpen] = useState(false);
-  const [newRoom, setNewRoom] = useState({ roomName: "", roomIntro: "" });
+  const [newRoom, setNewRoom] = useState({
+    roomName: "",
+    roomIntro: "",
+    roomId: "",
+  });
 
   const { roomName, roomIntro } = newRoom; // 비구조화 할당으로 객체 분해
 
@@ -21,7 +28,7 @@ const AddRoom = (prop) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     // Dialog 닫을 때 초기화
     setOpen(false);
     setNewRoom({
@@ -35,9 +42,15 @@ const AddRoom = (prop) => {
     setNewRoom({ ...newRoom, [name]: value });
   };
 
+  const dispatch = useContext(UserDispatch);
+
   const onSubmitFunc = (e) => {
     e.preventDefault();
-    prop.addRoomFunc(newRoom);
+    const id = uuid();
+    dispatch({
+      type: "ADD_ROOM_LIST",
+      room: { ...newRoom, roomId: id },
+    });
     handleClose();
   };
 
