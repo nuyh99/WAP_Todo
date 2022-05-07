@@ -1,6 +1,5 @@
 package Wap.Todo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.*;
 
 import javax.persistence.*;

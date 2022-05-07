@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -23,23 +26,42 @@ public class UserService {
         this.roomRepository = roomRepository;
     }
 
+    //중복 확인
+    public boolean duplicate(String id) {
+        return memberRepository.existsById(id);
+    }
+
     //Member 회원가입
     @Transactional
-    public Member join(Member member) {
+    public Member join(Member member) throws NoSuchAlgorithmException {
         if(memberRepository.existsById(member.getId()))
             return null;
 
         member.setRooms(new HashSet<>());
+
+        MessageDigest md= MessageDigest.getInstance("SHA-256");
+        md.update(md.digest(member.getPw().getBytes(StandardCharsets.UTF_8)));
+        StringBuilder builder = new StringBuilder();
+        for (byte b:md.digest())
+            builder.append(String.format("%02x", b));
+        member.setPw(builder.toString());
+
         return memberRepository.save(member);
     }
 
     //로그인 id, pw 확인
     @Transactional
-    public Member login(Member member) {
+    public String login(Member member) throws NoSuchAlgorithmException {
         if(memberRepository.existsById(member.getId())) {
+            MessageDigest md= MessageDigest.getInstance("SHA-256");
+            md.update(md.digest(member.getPw().getBytes(StandardCharsets.UTF_8)));
+            StringBuilder builder = new StringBuilder();
+            for (byte b:md.digest())
+                builder.append(String.format("%02x", b));
+
             Optional<Member> byId = memberRepository.findById(member.getId());
-            if(byId.isPresent() && member.getPw().equals(byId.get().getPw()))
-                return byId.get();
+            if(byId.isPresent() && byId.get().getPw().equals(builder.toString()))
+                return byId.get().getId();
         }
 
         return null;

@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -26,7 +28,7 @@ class RoomServiceTest {
     @Transactional
     @Test
     @DisplayName("방 삭제")
-    public void deleteRoom() {
+    public void deleteRoom() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
@@ -45,9 +47,9 @@ class RoomServiceTest {
     @Transactional
     @Test
     @DisplayName("방 초대 받기")
-    public void invitingUser() {
+    public void invitingUser() throws NoSuchAlgorithmException {
         //given
-        Member member = new Member("id", "pw", "name", null, null);
+        Member member = new Member("id", "pw2", "name", null, null);
         member = userService.join(member);        //회원가입
         Member member2 = new Member("id2", "pw", "name", null, null);
         member2 = userService.join(member2);        //회원가입
@@ -67,7 +69,7 @@ class RoomServiceTest {
     @Transactional
     @Test
     @DisplayName("투두 받기")
-    public void getTodos() {
+    public void getTodos() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
@@ -91,7 +93,7 @@ class RoomServiceTest {
     @Transactional
     @Test
     @DisplayName("투두 삭제")
-    public void deleteTodo() {
+    public void deleteTodo() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("id", "pw", "name",null, null);
         member = userService.join(member);        //회원가입
