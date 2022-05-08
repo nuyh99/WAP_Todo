@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddRoom from "./AddRoom";
+import EnterRoom from "./EnterRoom";
 import RoomsList from "./RoomsList";
 
 // useReducer
@@ -41,6 +42,7 @@ const Rooms = () => {
       접속중인 아이디 : {userId}
       <UserDispatch.Provider value={dispatch}>
         <AddRoom />
+        <EnterRoom />
         <RoomsList rooms={roomList} />
       </UserDispatch.Provider>
     </div>
