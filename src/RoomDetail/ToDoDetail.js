@@ -43,9 +43,9 @@ const ToDoDetail = (prop) => {
         ""
       ) : (
         <div>
-          <Dialog open={open} onClose={handleClose}>
+          <Dialog open={open} onClose={handleClose} fullWidth>
             <form onSubmit={onSubmitFunc}>
-              <DialogTitle>{writeTodo.title}</DialogTitle>
+              <DialogTitle>{prop.writeTodo.title}</DialogTitle>
               <DialogContent>
                 <TextField
                   autoFocus
@@ -70,6 +70,8 @@ const ToDoDetail = (prop) => {
                   variant="standard"
                   value={writeTodo.content}
                   onChange={onChangeFunc}
+                  multiline
+                  rows={4}
                   required
                 />
               </DialogContent>
@@ -82,6 +84,7 @@ const ToDoDetail = (prop) => {
                 >
                   바꾸기
                 </Button>
+  
                 <Button
                   onClick={handleClose}
                   variant="outlined"
