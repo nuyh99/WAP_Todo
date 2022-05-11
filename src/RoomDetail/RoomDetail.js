@@ -16,9 +16,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RoomSetting from "./RoomSetting";
 import ToDoDetail from "./ToDoDetail";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 function RoomDetail() {
   // 백엔드에 저장된 ToDo라 가정
   const [itemsFromBackend, setItemFromBackend] = useState([
@@ -243,24 +243,26 @@ function RoomDetail() {
   // 일정 추가하기 및 취소 버튼
   const onClickAddOpen = (e) => {
     setIsClick((prev) => !prev);
-    setToDoAdd({ title: "", content: "", date: new Date().toLocaleDateString() });
-    console.log(toDoAdd.date)
+    setToDoAdd({
+      title: "",
+      content: "",
+      date: new Date().toLocaleDateString(),
+    });
+    console.log(toDoAdd.date);
   };
 
   // 일정 추가 Input
   const toDoInputFunc = (e) => {
-    console.log(e.target)
+    console.log(e.target);
     const { name, value } = e.target;
     setToDoAdd({ ...toDoAdd, [name]: value });
   };
   const setDate = (newDate) => {
     const setNewDate = newDate.toLocaleDateString();
-    console.log(setNewDate)
-    setToDoAdd({...toDoAdd, date : setNewDate})
-  
-  }
+    console.log(setNewDate);
+    setToDoAdd({ ...toDoAdd, date: setNewDate });
+  };
 
-  
   // toDo 등록 버튼
   const toDoAddFunc = (e) => {
     e.preventDefault();
@@ -335,9 +337,7 @@ function RoomDetail() {
     ]);
   };
 
-
   // 05.09 Add Date
-  
 
   return (
     <>
@@ -345,6 +345,7 @@ function RoomDetail() {
         style={{
           display: "flex",
           justifyContent: "center",
+          padding: "30px 0px 0px 0px",
         }}
       >
         <DragDropContext
@@ -546,15 +547,15 @@ function RoomDetail() {
                 required
               />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-          label="Date desktop"
-          inputFormat="MM/dd/yyyy"
-          value={toDoAdd.date}
-          onChange={setDate}
-          renderInput={(params) => <TextField {...params} />}
-        />
-	</LocalizationProvider>
-         
+                <DesktopDatePicker
+                  label="Date desktop"
+                  inputFormat="MM/dd/yyyy"
+                  value={toDoAdd.date}
+                  onChange={setDate}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+
               <Button
                 type="submit"
                 endIcon={<PublishIcon />}

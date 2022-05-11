@@ -39,10 +39,13 @@ const Rooms = () => {
 
   return (
     <div>
-      접속중인 아이디 : {userId}
+      <div style={{ textAlign: "right" }}>접속중인 아이디 : {userId}</div>
       <UserDispatch.Provider value={dispatch}>
-        <AddRoom />
-        <EnterRoom />
+        <div style={{ textAlign: "right" }}>
+          <AddRoom />
+          <EnterRoom />
+        </div>
+
         <RoomsList rooms={roomList} />
       </UserDispatch.Provider>
     </div>
