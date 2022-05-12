@@ -1,4 +1,6 @@
-import React, { useReducer, useState } from "react";
+import { Button } from "@mui/material";
+import axios from "axios";
+import React, { useReducer, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AddRoom from "./AddRoom";
 import EnterRoom from "./EnterRoom";
@@ -26,24 +28,58 @@ const reducer = (state, action) => {
 export const UserDispatch = React.createContext(null);
 
 const Rooms = () => {
-  const [userId, setUserId] = useState("test");
+  axios.defaults.withCredentials = true;
+  // 세션에 저장된 name을 가져온다.
+  const name = sessionStorage.getItem("name");
 
-  // 초기 방 가져오기
-  const rooms = [
+  // 로그아웃하면 sessionStorage에 Item을 지운다.
+  const logoutFunc = () => {
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("isAuth");
+    // 메인화면으로 새로고침
+    window.location.replace("/");
+  };
+
+  // 테스트용 방 가져오기
+  const testrooms = [
     { roomName: "test1", roomIntro: "test1 intros", roomId: "a1" },
     { roomName: "test2", roomIntro: "test2 intros", roomId: "b2" },
     { roomName: "테스트4", roomIntro: "test3 intros", roomId: "bb5" },
   ];
 
-  const [roomList, dispatch] = useReducer(reducer, rooms);
+  // 임시 방
+  const [roomList, dispatch] = useReducer(reducer, []);
+
+  useEffect(() => {
+    getRooms();
+  }, [roomList]);
+
+  // 방 목록 가져오기
+  const getRooms = async () => {
+    const res = await axios({
+      method: "get",
+      url: "http://localhost:8080/user/rooms",
+    });
+    if (res.status === 200) {
+      if (res.data.length !== 0) {
+        dispatch({
+          type: "ADD_ROOM_LIST",
+          room: res.data,
+        });
+      }
+    }
+  };
 
   return (
     <div>
-      <div style={{ textAlign: "right" }}>접속중인 아이디 : {userId}</div>
+      <div style={{ textAlign: "right" }}>접속중인 아이디 : {name}</div>
       <UserDispatch.Provider value={dispatch}>
         <div style={{ textAlign: "right" }}>
           <AddRoom />
           <EnterRoom />
+          <Button onClick={logoutFunc} variant="outlined">
+            로그아웃
+          </Button>
         </div>
 
         <RoomsList rooms={roomList} />
