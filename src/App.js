@@ -4,18 +4,27 @@ import RoomDetail from "./RoomDetail/RoomDetail";
 import Login from "./Register/Login";
 import Form from "./Register/Form";
 import { Cookies } from "react-cookie";
+import { useReducer, useState } from "react";
 
 function App() {
   const isAuth = sessionStorage.getItem("isAuth");
+
   console.log(isAuth);
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/user/:userid" element={<PersonalRooms />}></Route>
-        <Route path="/room/:roomid" element={<RoomDetail />}></Route>
-        <Route path="/signup" element={<Form />}></Route>
+        {isAuth ? (
+          <>
+            <Route path="/" element={<PersonalRooms />}></Route>
+            <Route path="/room/:roomid" element={<RoomDetail />}></Route>
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Login />}></Route>
+            <Route path="/signup" element={<Form />}></Route>
+          </>
+        )}
       </Routes>
     </div>
   );
