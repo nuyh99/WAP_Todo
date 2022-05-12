@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./css/Login.css";
-import Form from "./Form";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
   axios.defaults.withCredentials = true;
 
   const [loginInfo, setLoginInfo] = useState({
@@ -39,8 +38,11 @@ const Login = () => {
         console.log("로그인 실패");
       } else {
         console.log("로그인 성공");
-        console.log(res);
         sessionStorage.setItem("isAuth", true);
+        sessionStorage.setItem("name", res.data);
+        setInterval(() => {
+          window.location.replace("/");
+        }, 1000);
       }
     }
   };
