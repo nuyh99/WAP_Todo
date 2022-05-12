@@ -9,10 +9,6 @@ function App() {
   const isAuth = sessionStorage.getItem("isAuth");
   console.log(isAuth);
 
-  const cookies = new Cookies();
-  cookies.get("JSESSIONID");
-  console.log(cookies);
-
   return (
     <div>
       <Routes>
