@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Validation from "./Validation";
 import UseForm from "./UseForm";
 import { Link } from "react-router-dom";
+
 const SignUpForm = (prop) => {
   const { handleChange, handleFormSubmit, values, errors } = UseForm(
     prop.submitForm

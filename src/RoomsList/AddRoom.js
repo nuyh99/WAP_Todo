@@ -21,7 +21,6 @@ const AddRoom = () => {
     roomIntro: "",
     roomId: "",
   });
-
   const { roomName, roomIntro } = newRoom; // 비구조화 할당으로 객체 분해
 
   const handleClickOpen = () => {

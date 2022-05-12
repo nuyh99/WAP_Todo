@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Validation from "./Validation";
 
 const UseForm = (submitForm) => {
+  axios.defaults.withCredentials = true;
   const [values, setValues] = useState({
     id: "",
     pw: "",
@@ -30,7 +31,7 @@ const UseForm = (submitForm) => {
     });
 
     console.log(res.data);
-    if ((await res.status) === 200) {
+    if (res.status === 200) {
       if (res.data !== "") {
         console.log("회원가입 성공!");
         console.log(res);
