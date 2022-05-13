@@ -49,7 +49,7 @@ public class RoomService {
 
     //방 만들기
     @Transactional
-    public Room joinRoom(String introduce, String id) {
+    public Room joinRoom(String introduce, String title, String id) {
         Random random = new Random();       //랜덤 초대 코드 생성
         String generatedString = random.ints(48, 123)
                 .limit(6)
@@ -61,6 +61,7 @@ public class RoomService {
                 .introduce(introduce)
                 .code(generatedString)
                 .todos(new ArrayList<>())
+                .title(title)
                 .build();
 
         Room result = roomRepository.save(room);
@@ -93,14 +94,8 @@ public class RoomService {
     @Transactional
     public Todo updateTodo(Long num, Todo todo, String id) {
         if (todo.getId() != null && todoRepository.existsById(todo.getId())) {      //투두 수정
-            Todo byId = todoRepository.getById(todo.getId());
-            byId.setDeadline(todo.getDeadline());
-            byId.setContent(todo.getContent());
-            byId.setLastUpdateId(id);
-            byId.setStatus(todo.getStatus());
-            byId.setEditing(todo.isEditing());
-
-            return todoRepository.save(byId);
+            todo.setLastUpdateId(id);
+            return todoRepository.save(todo);
         } else {                                            //투두 등록
             Todo result = Todo.builder()
                     .room(roomRepository.getById(num))
@@ -109,6 +104,7 @@ public class RoomService {
                     .lastUpdateId(id)
                     .isEditing(false)
                     .status(todo.getStatus())
+                    .todoIndex(todo.getTodoIndex())
                     .build();
 
             result = todoRepository.save(result);

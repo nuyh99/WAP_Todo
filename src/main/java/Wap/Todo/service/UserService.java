@@ -61,7 +61,7 @@ public class UserService {
 
             Optional<Member> byId = memberRepository.findById(member.getId());
             if(byId.isPresent() && byId.get().getPw().equals(builder.toString()))
-                return byId.get().getId();
+                return byId.get().getId()+", "+byId.get().getName();
         }
 
         return null;

@@ -21,6 +21,9 @@ public class Room {
     @Column(length = 20)
     private String master;
 
+    @Column(length = 20)
+    private String title;
+
     private String introduce;
 
     @Column(length = 6)

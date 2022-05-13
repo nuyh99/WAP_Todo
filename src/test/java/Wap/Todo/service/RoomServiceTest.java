@@ -33,7 +33,7 @@ class RoomServiceTest {
         Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
 
-        Room room = roomService.joinRoom("test", member.getId());
+        Room room = roomService.joinRoom("test","제목", member.getId());
         System.out.println(room);               //방 생성
 
         //when
@@ -54,7 +54,7 @@ class RoomServiceTest {
         Member member2 = new Member("id2", "pw", "name", null, null);
         member2 = userService.join(member2);        //회원가입
 
-        Room room = roomService.joinRoom("test", member.getId());
+        Room room = roomService.joinRoom("test","", member.getId());
         System.out.println(room);               //방 생성
 
 
@@ -73,7 +73,7 @@ class RoomServiceTest {
         //given
         Member member = new Member("id", "pw", "name", null, null);
         member = userService.join(member);        //회원가입
-        Room room = roomService.joinRoom("test", member.getId());   //방 생성
+        Room room = roomService.joinRoom("test", "",member.getId());   //방 생성
         Todo todo = Todo.builder()
                 .content("dfjklsdjklf")
                 .build();
@@ -97,7 +97,7 @@ class RoomServiceTest {
         //given
         Member member = new Member("id", "pw", "name",null, null);
         member = userService.join(member);        //회원가입
-        Room room = roomService.joinRoom("test", member.getId());   //방 생성
+        Room room = roomService.joinRoom("test","", member.getId());   //방 생성
         Todo todo = Todo.builder()
                 .content("dfjklsdjklf")
                 .build();
