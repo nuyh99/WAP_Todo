@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Validation from "./Validation";
 
 const UseForm = (submitForm) => {
-  axios.defaults.withCredentials = true;
   const [values, setValues] = useState({
     id: "",
     pw: "",

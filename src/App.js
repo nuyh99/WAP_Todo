@@ -3,10 +3,12 @@ import PersonalRooms from "./RoomsList/PersonalRooms";
 import RoomDetail from "./RoomDetail/RoomDetail";
 import Login from "./Register/Login";
 import Form from "./Register/Form";
-import { Cookies } from "react-cookie";
 import { useReducer, useState } from "react";
+import axios from "axios";
 
 function App() {
+  axios.defaults.withCredentials = true;
+
   const isAuth = sessionStorage.getItem("isAuth");
 
   console.log(isAuth);
