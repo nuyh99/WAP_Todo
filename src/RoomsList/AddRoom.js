@@ -11,17 +11,15 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
 
-import { UserDispatch } from "./PersonalRooms";
-import uuid from "react-uuid";
+import axios from "axios";
 
 const AddRoom = () => {
   const [open, setOpen] = useState(false);
   const [newRoom, setNewRoom] = useState({
-    roomName: "",
-    roomIntro: "",
-    roomId: "",
+    title: "",
+    introduce: "",
   });
-  const { roomName, roomIntro } = newRoom; // 비구조화 할당으로 객체 분해
+  const { title, introduce } = newRoom; // 비구조화 할당으로 객체 분해
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,8 +29,8 @@ const AddRoom = () => {
     // Dialog 닫을 때 초기화
     setOpen(false);
     setNewRoom({
-      roomName: "",
-      roomIntro: "",
+      title: "",
+      introduce: "",
     });
   };
 
@@ -41,16 +39,24 @@ const AddRoom = () => {
     setNewRoom({ ...newRoom, [name]: value });
   };
 
-  const dispatch = useContext(UserDispatch);
-
-  const onSubmitFunc = (e) => {
+  const onSubmitFunc = async (e) => {
     e.preventDefault();
-    const id = uuid();
-    dispatch({
-      type: "ADD_ROOM_LIST",
-      room: { ...newRoom, roomId: id },
+    const res = await axios({
+      method: "post",
+      url: "http://localhost:8080/room/invite",
+      data: {
+        title: title,
+        introduce: introduce,
+      },
     });
-    handleClose();
+    if (res.status === 200) {
+      handleClose();
+      setInterval(() => {
+        window.location.replace("/");
+      }, 500);
+    } else {
+      handleClose();
+    }
   };
 
   return (
@@ -69,26 +75,26 @@ const AddRoom = () => {
             <TextField
               autoFocus
               margin="dense"
-              name="roomName"
+              name="title"
               label="Room's Name"
               type="text"
               fullWidth
               variant="standard"
               onChange={onChangeFunc}
-              value={roomName}
+              value={title}
               required
             />
             <br />
             <TextField
               autoFocus
               margin="dense"
-              name="roomIntro"
+              name="introduce"
               label="Room's Intro"
               type="text"
               fullWidth
               variant="standard"
               onChange={onChangeFunc}
-              value={roomIntro}
+              value={introduce}
               required
             />
           </DialogContent>

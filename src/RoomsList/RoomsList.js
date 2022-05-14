@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserDispatch } from "./PersonalRooms";
 
 const RoomsList = (prop) => {
-  prop.rooms.map((intro) => console.log(intro.roomName));
+  console.log(prop);
+
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>방목록</h1>
@@ -11,9 +12,9 @@ const RoomsList = (prop) => {
         {prop.rooms.map((detail) => {
           return (
             <div
-              key={detail.roomId}
+              key={detail.code}
               style={{
-                float: "right",
+                float: "left",
                 margin: "0px 0px 0px 10px",
                 border: "3px solid black",
                 width: "50vh",
@@ -21,11 +22,11 @@ const RoomsList = (prop) => {
               }}
             >
               <Link
-                to={`/room/${detail.roomId}`}
+                to={`/room/${detail.num}`}
                 style={{ color: "black", textDecoration: "none" }}
               >
-                방 이름 : {detail.roomName}
-                <br />방 한줄 소개 : {detail.roomIntro}
+                방 이름 : {detail.title}
+                <br />방 한줄 소개 : {detail.introduce}
               </Link>
             </div>
           );
