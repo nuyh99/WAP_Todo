@@ -441,6 +441,9 @@ function RoomDetail() {
                                             padding: "0px 0px 0px 0px",
                                             minWidth: "1px",
                                           }}
+                                          onClick={(e) =>
+                                            onClickFunczz(item, e)
+                                          }
                                         >
                                           <div
                                             style={{

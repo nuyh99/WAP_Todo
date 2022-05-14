@@ -6,25 +6,19 @@ import AddRoom from "./AddRoom";
 import EnterRoom from "./EnterRoom";
 import RoomsList from "./RoomsList";
 
-// useReducer
 const reducer = (state, action) => {
-  console.log(action);
-  console.log(state);
+  console.log(action.room);
   switch (action.type) {
-    case "GET_ROOM_LIST":
+    case "GET_ROOMS_LIST":
       return state;
     case "ADD_ROOM_LIST":
-      return [...state, action.room];
-    case "GET_ROOM_NAME":
-      const room_name = state.forEach((element) => {
-        return element.roomId === action.roomId;
-      });
-      return room_name;
+      return [...state, ...action.room];
     default:
       return state;
   }
 };
 
+// Context API로 전역 값 관리
 export const UserDispatch = React.createContext(null);
 
 const Rooms = () => {
@@ -40,19 +34,13 @@ const Rooms = () => {
     window.location.replace("/");
   };
 
-  // 테스트용 방 가져오기
-  const testrooms = [
-    { roomName: "test1", roomIntro: "test1 intros", roomId: "a1" },
-    { roomName: "test2", roomIntro: "test2 intros", roomId: "b2" },
-    { roomName: "테스트4", roomIntro: "test3 intros", roomId: "bb5" },
-  ];
-
-  // 임시 방
   const [roomList, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
     getRooms();
-  }, [roomList]);
+  }, []);
+
+  console.log(roomList);
 
   // 방 목록 가져오기
   const getRooms = async () => {

@@ -12,14 +12,15 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
 
 import { UserDispatch } from "./PersonalRooms";
-import uuid from "react-uuid";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const EnterRoom = () => {
+  axios.defaults.withCredentials = true;
   const [open, setOpen] = useState(false);
   const [enterCode, setEnderCode] = useState("");
 
-  const navigate = useNavigate();
+  console.log(enterCode);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,9 +37,27 @@ const EnterRoom = () => {
     setEnderCode(value);
   };
 
-  const onSubmitFunc = (e) => {
+  // 05-14 고칠 내용
+  // 1. api 고치기
+  // 2. 유효하다면 방에 바로 들어가기
+  // 3. 뒤로 나왔을 때 해당 방이 불러올 수 있도록
+  const onSubmitFunc = async (e) => {
     e.preventDefault();
-    navigate(`/room/${enterCode}`);
+    console.log("hi");
+    // 오류 난다.
+    const res = await axios({
+      method: "get",
+      url: "http://localhost:8080/room/invite",
+      params: {
+        code: enterCode,
+      },
+    });
+    if (res.status === 200) {
+      console.log(res.data);
+    } else {
+      console.log("asd");
+      window.alert("Error!");
+    }
   };
 
   return (
