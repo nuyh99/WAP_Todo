@@ -32,7 +32,7 @@ public class RoomController {
     }
 
     //방만들기
-    @PostMapping("/invite")
+    @PostMapping("/create")
     @ResponseBody
     public Room createRoom(@RequestBody Map<String, String> introduce, HttpSession session){
         String id = (String)session.getAttribute("memberId");
@@ -41,7 +41,7 @@ public class RoomController {
     }
 
     //방 초대받기
-    @GetMapping("/invite")
+    @PostMapping("/invite")
     @ResponseBody
     public Room inviteRoom(@RequestBody Map<String, String> code, HttpSession session){
         String id = (String)session.getAttribute("memberId");
