@@ -3,20 +3,24 @@ import axios from "axios";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import Loading from "../Loading";
 
 const RoomsList = (prop) => {
-  axios.defaults.withCredentials = true;
+  const name = sessionStorage.getItem("name");
 
-  console.log(prop);
+  // 방 삭제중인지
+  const [isLoading, setisLoading] = useState(false);
 
+  // 방 삭제 함수
   const onClickDelete = (e, detail) => {
     e.preventDefault();
-
     const inputMsg = prompt(
       `방 삭제를 원하시면 방 이름(${detail.title})을 정확하게 입력하세요.`
     );
     if (inputMsg === detail.title) {
       console.log("일치합니다.");
+      setisLoading((prev) => !prev);
       deleteRoom(detail.num);
     } else {
       console.log("방 이름이 일치하지 않습니다. 다시 입력하세요.");
@@ -35,12 +39,15 @@ const RoomsList = (prop) => {
       method: "delete",
       url: `http://localhost:8080/room/${num}`,
     });
-    window.alert("방 삭제가 완료되었습니다.");
-    window.location.replace("/");
+    setisLoading((prev) => !prev);
+    if (res.status === 200) {
+      window.location.replace("/");
+    }
   };
 
   return (
     <div>
+      {isLoading ? <Loading /> : ""}
       <h1 style={{ textAlign: "center" }}>방목록</h1>
       <div style={{ width: "175vh" }}>
         {prop.rooms.map((detail) => {

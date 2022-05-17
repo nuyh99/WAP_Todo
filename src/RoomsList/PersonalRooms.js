@@ -6,6 +6,7 @@ import EnterRoom from "./EnterRoom";
 import RoomsList from "./RoomsList";
 
 import { Button } from "@mui/material";
+import Loading from "../Loading";
 
 const reducer = (state, action) => {
   console.log(action.room);
@@ -27,6 +28,9 @@ const Rooms = () => {
   // 세션에 저장된 name을 가져온다.
   const name = sessionStorage.getItem("name");
 
+  // 방을 가져오는중인지
+  const [isLoading, setIsLoading] = useState(false);
+
   // 로그아웃하면 sessionStorage에 Item을 지운다.
   const logoutFunc = () => {
     sessionStorage.removeItem("name");
@@ -38,10 +42,9 @@ const Rooms = () => {
   const [roomList, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
+    setIsLoading(true);
     getRooms();
   }, []);
-
-  console.log(roomList);
 
   // 방 목록 가져오기
   const getRooms = async () => {
@@ -49,6 +52,7 @@ const Rooms = () => {
       method: "get",
       url: "http://localhost:8080/user/rooms",
     });
+    setIsLoading(false);
     if (res.status === 200) {
       if (res.data.length !== 0) {
         dispatch({
@@ -61,6 +65,7 @@ const Rooms = () => {
 
   return (
     <div>
+      {isLoading ? <Loading /> : ""}
       <div style={{ textAlign: "right" }}>접속중인 아이디 : {name}</div>
       <UserDispatch.Provider value={dispatch}>
         <div style={{ textAlign: "right" }}>
