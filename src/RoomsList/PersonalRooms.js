@@ -4,9 +4,9 @@ import React, { useReducer, useState, useEffect } from "react";
 import AddRoom from "./AddRoom";
 import EnterRoom from "./EnterRoom";
 import RoomsList from "./RoomsList";
+import Loading from "../Loading";
 
 import { Button } from "@mui/material";
-import Loading from "../Loading";
 
 const reducer = (state, action) => {
   console.log(action.room);
