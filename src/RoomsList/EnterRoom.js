@@ -25,22 +25,20 @@ const EnterRoom = () => {
     setEnderCode(value);
   };
 
-  // 05-14 고칠 내용
-  // 1. api 고치기
-  // 2. 유효하다면 방에 바로 들어가기
-  // 3. 뒤로 나왔을 때 해당 방이 불러올 수 있도록
   const onSubmitFunc = async (e) => {
     e.preventDefault();
     console.log("hi");
-    // 오류 난다.
     const res = await axios({
       method: "post",
-      url: `http://localhost:8080/room/invite/${enterCode}`,
+      url: "http://localhost:8080/room/invite",
+      data: {
+        code: enterCode,
+      },
     });
     if (res.status === 200) {
       console.log(res.data);
+      window.location.replace("/");
     } else {
-      console.log("asd");
       window.alert("Error!");
     }
   };
@@ -56,7 +54,7 @@ const EnterRoom = () => {
       </Button>
       <Dialog open={open} onClose={handleEnterRoomClick}>
         <form onSubmit={onSubmitFunc}>
-          <DialogTitle>방 초대 코드를 입력하세요.</DialogTitle>
+          <DialogTitle>입장할 방의 초대 코드를 입력하세요.</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
