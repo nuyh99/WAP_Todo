@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
+
+import Loading from "../Loading";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Button } from "@mui/material";
-import { useState } from "react";
-import Loading from "../Loading";
+import { Alert, Button } from "@mui/material";
+import Swal from "sweetalert2";
 
 const RoomsList = (prop) => {
   const name = sessionStorage.getItem("name");
@@ -24,7 +26,11 @@ const RoomsList = (prop) => {
       deleteRoom(detail.num);
     } else {
       console.log("방 이름이 일치하지 않습니다. 다시 입력하세요.");
-      window.alert("방 이름을 정확하게 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "방 이름이 달라요. 다시 입력해주세요.",
+      });
     }
 
     console.log(e, detail);
@@ -40,8 +46,17 @@ const RoomsList = (prop) => {
       url: `http://localhost:8080/room/${num}`,
     });
     setisLoading((prev) => !prev);
+
     if (res.status === 200) {
-      window.location.replace("/");
+      Swal.fire({
+        icon: "success",
+        title: "방이 삭제되었습니다.",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1000);
     }
   };
 

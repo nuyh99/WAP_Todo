@@ -10,6 +10,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
+import Swal from "sweetalert2";
 
 const EnterRoom = () => {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,7 @@ const EnterRoom = () => {
 
   const onSubmitFunc = async (e) => {
     e.preventDefault();
-    console.log("hi");
+    setOpen(false);
     const res = await axios({
       method: "post",
       url: "http://localhost:8080/room/invite",
@@ -36,10 +37,16 @@ const EnterRoom = () => {
       },
     });
     if (res.status === 200) {
-      console.log(res.data);
-      window.location.replace("/");
-    } else {
-      window.alert("Error!");
+      if (res.data !== "") {
+        console.log(res.data);
+        window.location.replace("/");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "존재하지 않는 코드에요.",
+        });
+      }
     }
   };
 
