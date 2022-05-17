@@ -1,8 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import uuid from "react-uuid";
-import AddTaskIcon from "@mui/icons-material/AddTask";
 import * as React from "react";
+
+import RoomSetting from "./RoomSetting";
+import ToDoDetail from "./ToDoDetail";
+
+import AddTaskIcon from "@mui/icons-material/AddTask";
 import {
   Button,
   Dialog,
@@ -14,12 +20,29 @@ import {
 import PublishIcon from "@mui/icons-material/Publish";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import RoomSetting from "./RoomSetting";
-import ToDoDetail from "./ToDoDetail";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 function RoomDetail() {
+  const param = useParams();
+  console.log(param.roomid); // param으로 roomId 식별
+
+  useEffect(() => {
+    getToDos();
+  }, []);
+
+  const getToDos = async () => {
+    const res = await axios({
+      method: "get",
+      url: `http://localhost:8080/room/${param.roomid}`,
+    });
+    if (res.status === 200) {
+      console.log(res.data);
+    } else {
+      console.log(res);
+    }
+  };
+
   // 백엔드에 저장된 ToDo라 가정
   const [itemsFromBackend, setItemFromBackend] = useState([
     {
@@ -28,69 +51,6 @@ function RoomDetail() {
       title: "알고리즘",
       content: "알고리즘 과제",
       date: "2022-05-11",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "processing",
-      index: 0,
-      title: "운영체제",
-      content: "O/S 과제",
-      date: "2022-05-14",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "done",
-      index: 0,
-      title: "중간고사",
-      content: "중간고사대비",
-      date: "2022-05-20",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "ready",
-      index: 1,
-      title: "기말고사",
-      content: "기말고사 대비",
-      date: "2022-05-07",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "ready",
-      index: 2,
-      title: "팀프로젝트",
-      content: "팀프로젝트 대비",
-      date: "2022-05-14",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "processing",
-      index: 1,
-      title: "파이썬",
-      content: "파이썬 공부",
-      date: "2022-05-30",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "defer",
-      index: 0,
-      title: "자바",
-      content: "자바공부",
-      date: "2022-06-30",
-      isEdit: false,
-      id: uuid(),
-    },
-    {
-      condition: "ready",
-      index: 3,
-      title: "스포츠데이터",
-      content: "스포츠데이터 과제",
-      date: "2022-07-02",
       isEdit: false,
       id: uuid(),
     },
@@ -116,9 +76,13 @@ function RoomDetail() {
     },
   };
 
-  // console.log(itemsFromBackend);
   // 백에서 가져온 ToDo를 저장하기위한 State
   const [columns, setColumns] = useState(columnsFromBackend);
+
+  // columns가 바뀔때 마다
+  useEffect(() => {
+    console.log("hi");
+  }, [columns]);
 
   // 백에서 자료를 다 가져왔는지 확인
   const [loading, setLoading] = useState(true);
@@ -151,16 +115,16 @@ function RoomDetail() {
     itemforEach(itemsFromBackend);
   }, [itemsFromBackend]);
 
-  // 05.05 수정중일 때 droppableId를 updating으로 변경
+  // ToDo를 수정중일 때 수정중인 ToDo의 isEdit을 true로 설정
   const onDragStart = (result, columns, setColumns) => {
     columns[result.source.droppableId].items.forEach((element) => {
       if (element.id === result.draggableId) {
         element.isEdit = true;
-        console.log(element.isEdit);
       }
     });
   };
 
+  // Drag And Drop 구현부 시작부분
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -173,7 +137,7 @@ function RoomDetail() {
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
 
-      // isEdit False로
+      // Drop한 Todo의 isEdit을 False로 설정
       removed.isEdit = false;
 
       // sourceItem의 index 재 정렬
@@ -193,6 +157,7 @@ function RoomDetail() {
           element.index += 1;
         }
       });
+
       destItems.splice(destination.index, 0, removed);
 
       setColumns({
@@ -239,6 +204,7 @@ function RoomDetail() {
       });
     }
   };
+  // Drag And Drop 구현부 끝부분
 
   // 일정 추가하기 및 취소 버튼
   const onClickAddOpen = (e) => {
@@ -273,7 +239,6 @@ function RoomDetail() {
       content: toDoAdd.content,
       date: toDoAdd.date,
       isEdit: false,
-      id: uuid(),
     };
 
     setItemFromBackend([...itemsFromBackend, newItem]);

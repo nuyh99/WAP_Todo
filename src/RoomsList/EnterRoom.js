@@ -1,34 +1,22 @@
 import { useState } from "react";
-import React, { useContext } from "react";
+import axios from "axios";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
 
-import { UserDispatch } from "./PersonalRooms";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 const EnterRoom = () => {
-  axios.defaults.withCredentials = true;
   const [open, setOpen] = useState(false);
   const [enterCode, setEnderCode] = useState("");
 
-  console.log(enterCode);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (e) => {
-    // Dialog 닫을 때 초기화
-    setOpen(false);
+  const handleEnterRoomClick = () => {
+    setOpen((prev) => !prev);
     setEnderCode("");
   };
 
@@ -46,11 +34,8 @@ const EnterRoom = () => {
     console.log("hi");
     // 오류 난다.
     const res = await axios({
-      method: "get",
-      url: "http://localhost:8080/room/invite",
-      params: {
-        code: enterCode,
-      },
+      method: "post",
+      url: `http://localhost:8080/room/invite/${enterCode}`,
     });
     if (res.status === 200) {
       console.log(res.data);
@@ -64,20 +49,20 @@ const EnterRoom = () => {
     <div>
       <Button
         variant="contained"
-        onClick={handleClickOpen}
+        onClick={handleEnterRoomClick}
         endIcon={<AddBoxIcon />}
       >
         Enter Room
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleEnterRoomClick}>
         <form onSubmit={onSubmitFunc}>
-          <DialogTitle>Input Room's Invite Code</DialogTitle>
+          <DialogTitle>방 초대 코드를 입력하세요.</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
               name="roomName"
-              label="Room's Invite Code"
+              label="초대 코드 입력"
               type="text"
               fullWidth
               variant="standard"
@@ -94,15 +79,15 @@ const EnterRoom = () => {
               color="success"
               endIcon={<CreateIcon />}
             >
-              Enter
+              입장하기
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={handleEnterRoomClick}
               variant="outlined"
               color="error"
               endIcon={<CancelIcon />}
             >
-              Cancel
+              취소하기
             </Button>
           </DialogActions>
         </form>
