@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./css/Login.css";
-import { Link, useNavigate } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
   const [loginInfo, setLoginInfo] = useState({
     userId: "",
     userPassword: "",
@@ -17,7 +17,6 @@ const Login = (props) => {
 
   const onSubmitFunc = (e) => {
     e.preventDefault();
-    console.log("h2");
     login();
   };
 
@@ -30,13 +29,10 @@ const Login = (props) => {
         pw: userPassword,
       },
     });
-    console.log(res.status);
     if (res.status === 200) {
       if (res.data === "") {
         console.log("로그인 실패");
       } else {
-        console.log("로그인 성공");
-        console.log(res.data);
         sessionStorage.setItem("isAuth", true);
         sessionStorage.setItem("name", res.data);
         setInterval(() => {
