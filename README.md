@@ -22,3 +22,4 @@ ToDoTogether 프로젝트의 Front-End Repository입니다.
   - redux, react-redux
   - axios
   - date-fns
+  - react-loader-spinner
