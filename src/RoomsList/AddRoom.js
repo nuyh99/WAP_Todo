@@ -1,12 +1,11 @@
 import { useState } from "react";
-import React, { useContext } from "react";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
@@ -43,7 +42,7 @@ const AddRoom = () => {
     e.preventDefault();
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/room/invite",
+      url: "http://localhost:8080/room/create",
       data: {
         title: title,
         introduce: introduce,

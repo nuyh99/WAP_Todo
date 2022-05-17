@@ -1,10 +1,11 @@
-import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useReducer, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+
 import AddRoom from "./AddRoom";
 import EnterRoom from "./EnterRoom";
 import RoomsList from "./RoomsList";
+
+import { Button } from "@mui/material";
 
 const reducer = (state, action) => {
   console.log(action.room);
