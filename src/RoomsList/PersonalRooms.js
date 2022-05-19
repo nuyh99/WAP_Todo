@@ -54,6 +54,7 @@ const Rooms = () => {
     });
     setIsLoading(false);
     if (res.status === 200) {
+      console.log(res.data);
       if (res.data.length !== 0) {
         dispatch({
           type: "ADD_ROOM_LIST",

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Loading from "../Loading";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Alert, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import Swal from "sweetalert2";
 
 const RoomsList = (prop) => {
