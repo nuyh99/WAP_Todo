@@ -31,4 +31,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Todo> todos = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
+    private List<Member> members;
 }

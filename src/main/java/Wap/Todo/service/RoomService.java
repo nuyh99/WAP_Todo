@@ -27,18 +27,16 @@ public class RoomService {
     @Transactional
     public Long deleteRoom(Long num, String id) {
         if (roomRepository.existsById(num)) {      //해당 방이 존재하면
-            if (roomRepository.getById(num).getMaster().equals(id)) {   //방의 master가 세션의 id와 같으면
-                Room room = roomRepository.getById(num);
-                Member member = memberRepository.getById(id);
+            Room room = roomRepository.findById(num).get();
+            Member member = memberRepository.getById(id);
 
-                member.getRooms().remove(room);
-                memberRepository.findAll().stream()
-                        .filter(o -> o.getRooms().contains(room))
-                        .forEach(o -> o.getRooms().remove(room));
-
+            if (room.getMaster().equals(id)) {   //방의 master가 세션의 id와 같으면
+                List<Member> members = room.getMembers();
+                members.forEach(o->o.getRooms().remove(room));
                 roomRepository.deleteById(num);
             } else {
-                memberRepository.getById(id).getRooms().remove(roomRepository.getById(num));
+                member.getRooms().remove(room);
+                room.getMembers().remove(member);
             }
 
             return num;
@@ -62,6 +60,7 @@ public class RoomService {
                 .code(generatedString)
                 .todos(new ArrayList<>())
                 .title(title)
+                .members(new ArrayList<>())
                 .build();
 
         Room result = roomRepository.save(room);
@@ -80,7 +79,9 @@ public class RoomService {
         if (room.size() == 0)
             return null;
 
-        memberRepository.getById(id).getRooms().add(room.get(0));
+        Member member = memberRepository.getById(id);
+        member.getRooms().add(room.get(0));
+        room.get(0).getMembers().add(member);
         return room.get(0);
     }
 
