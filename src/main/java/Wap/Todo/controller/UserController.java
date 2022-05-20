@@ -49,7 +49,9 @@ public class UserController {
         if(login == null)
             return null;
 
+
         session.setAttribute("memberId", member.getId());
+        session.setAttribute("memberName", member.getName());
 
         return login;
     }
