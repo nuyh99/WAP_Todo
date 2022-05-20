@@ -1,8 +1,5 @@
 package Wap.Todo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +20,9 @@ public class Room {
 
     @Column(length = 20)
     private String master;
+
+    @Column(length = 20)
+    private String title;
 
     private String introduce;
 

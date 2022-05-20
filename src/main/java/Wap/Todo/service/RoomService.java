@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class RoomService {
@@ -47,9 +50,11 @@ public class RoomService {
     //방 만들기
     @Transactional
     public Room joinRoom(String introduce, String title, String id) {
-        String generatedString = UUID.randomUUID()
-                .toString()
-                .substring(0, 10);  //초대 코드 생성후 10자리까지 자르기
+        Random random = new Random();       //랜덤 초대 코드 생성
+        String generatedString = random.ints(48, 123)
+                .limit(6)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
 
         Room room = Room.builder()
                 .master(id)

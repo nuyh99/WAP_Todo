@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.swing.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Controller
@@ -26,18 +27,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    //중복 확인
+    @GetMapping("/idDuplicated")
+    @ResponseBody
+    public boolean duplicate(@RequestBody Member member) {
+        return userService.duplicate(member.getId());
+    }
+
     //회원가입
     @PostMapping ("/register")
     @ResponseBody
-    public Member register(@RequestBody Member member){
+    public Member register(@RequestBody Member member) throws NoSuchAlgorithmException {
         return userService.join(member);
     }
 
     //로그인
     @PostMapping("/login")
     @ResponseBody
-    public Member login(@RequestBody Member member, HttpSession session){
-        Member login = userService.login(member);
+    public String login(@RequestBody Member member, HttpSession session) throws NoSuchAlgorithmException {
+        String login = userService.login(member);
         if(login == null)
             return null;
 

@@ -3,6 +3,7 @@ package Wap.Todo.controller;
 import Wap.Todo.domain.Room;
 import Wap.Todo.domain.Todo;
 import Wap.Todo.service.RoomService;
+import Wap.Todo.vo.TodoVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,21 +32,16 @@ public class RoomController {
     }
 
     //방만들기
-    @PostMapping("/invite")
+    @PostMapping("/create")
     @ResponseBody
-    public Room createRoom(@RequestBody String introduce, HttpSession session){
+    public Room createRoom(@RequestBody Map<String, String> introduce, HttpSession session){
         String id = (String)session.getAttribute("memberId");
 
-        return roomService.joinRoom(introduce,id);
+        return roomService.joinRoom(introduce.get("introduce"), introduce.get("title"), id);
     }
 
-<<<<<<< Updated upstream
     //방 초대받기
-    @GetMapping("/invite")
-=======
-    //방 코드입력
     @PostMapping("/invite")
->>>>>>> Stashed changes
     @ResponseBody
     public Room inviteRoom(@RequestBody Map<String, String> code, HttpSession session){
         String id = (String)session.getAttribute("memberId");
@@ -58,7 +54,7 @@ public class RoomController {
     @ResponseBody
     public List<Todo> enterRoom(@PathVariable("room_num") Long num){
 
-        return roomService.getTodos(num);
+        return new TodoVO(roomService.getTodos(num)).getTodos();
     }
 
     //투두 등록 및 수정

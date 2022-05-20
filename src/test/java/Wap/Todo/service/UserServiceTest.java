@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -28,7 +30,7 @@ class UserServiceTest {
     @Transactional
     @Test
     @DisplayName("회원가입")
-    public void join() {
+    public void join() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("test", "123", "헤헤", null,null);
 
@@ -42,7 +44,7 @@ class UserServiceTest {
     @Transactional
     @Test
     @DisplayName("중복 회원가입")
-    public void duplicateJoin() {
+    public void duplicateJoin() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("test", "123", "헤헤", null,null);
         Member member2 = new Member("test", "123", "헤헤", null,null);
@@ -57,7 +59,7 @@ class UserServiceTest {
     @Transactional
     @Test
     @DisplayName("로그인")
-    public void login() {
+    public void login() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("test", "123", "헤헤",null, null);
         Member toLogin = new Member("test", "123", null,null, null);
@@ -75,7 +77,7 @@ class UserServiceTest {
     @Transactional
     @Test
     @DisplayName("방 목록 가져오기")
-    public void getRooms() {
+    public void getRooms() throws NoSuchAlgorithmException {
         //given
         Member member = new Member("test", "123", "헤헤", null,null);
         Room room=new Room();

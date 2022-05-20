@@ -1,6 +1,5 @@
 package Wap.Todo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +25,9 @@ public class Todo {
     private Status status;
     private boolean isEditing;
 
+    @Builder.Default
+    private Long todoIndex =Long.MAX_VALUE;
+
     @Column(length = 20)
     private String lastUpdateId;
 
@@ -38,6 +40,7 @@ public class Todo {
                 ", content='" + content + '\'' +
                 ", status=" + status +
                 ", isEditing=" + isEditing +
+                ", order=" + todoIndex +
                 ", lastUpdateId='" + lastUpdateId + '\'' +
                 '}';
     }
