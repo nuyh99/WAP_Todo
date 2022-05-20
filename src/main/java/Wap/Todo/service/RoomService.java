@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -49,18 +46,17 @@ public class RoomService {
 
     //방 만들기
     @Transactional
-    public Room joinRoom(String introduce, String id) {
-        Random random = new Random();       //랜덤 초대 코드 생성
-        String generatedString = random.ints(48, 123)
-                .limit(6)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+    public Room joinRoom(String introduce, String title, String id) {
+        String generatedString = UUID.randomUUID()
+                .toString()
+                .substring(0, 10);  //초대 코드 생성후 10자리까지 자르기
 
         Room room = Room.builder()
                 .master(id)
                 .introduce(introduce)
                 .code(generatedString)
                 .todos(new ArrayList<>())
+                .title(title)
                 .build();
 
         Room result = roomRepository.save(room);
@@ -93,14 +89,8 @@ public class RoomService {
     @Transactional
     public Todo updateTodo(Long num, Todo todo, String id) {
         if (todo.getId() != null && todoRepository.existsById(todo.getId())) {      //투두 수정
-            Todo byId = todoRepository.getById(todo.getId());
-            byId.setDeadline(todo.getDeadline());
-            byId.setContent(todo.getContent());
-            byId.setLastUpdateId(id);
-            byId.setStatus(todo.getStatus());
-            byId.setEditing(todo.isEditing());
-
-            return todoRepository.save(byId);
+            todo.setLastUpdateId(id);
+            return todoRepository.save(todo);
         } else {                                            //투두 등록
             Todo result = Todo.builder()
                     .room(roomRepository.getById(num))
@@ -109,6 +99,7 @@ public class RoomService {
                     .lastUpdateId(id)
                     .isEditing(false)
                     .status(todo.getStatus())
+                    .todoIndex(todo.getTodoIndex())
                     .build();
 
             result = todoRepository.save(result);

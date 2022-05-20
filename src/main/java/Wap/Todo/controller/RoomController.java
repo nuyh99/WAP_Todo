@@ -39,8 +39,13 @@ public class RoomController {
         return roomService.joinRoom(introduce,id);
     }
 
+<<<<<<< Updated upstream
     //방 초대받기
     @GetMapping("/invite")
+=======
+    //방 코드입력
+    @PostMapping("/invite")
+>>>>>>> Stashed changes
     @ResponseBody
     public Room inviteRoom(@RequestBody Map<String, String> code, HttpSession session){
         String id = (String)session.getAttribute("memberId");
