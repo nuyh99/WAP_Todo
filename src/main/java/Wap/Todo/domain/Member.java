@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -34,4 +33,14 @@ public class  Member {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "room_num"))
     private Set<Room> rooms = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id='" + id + '\'' +
+                ", pw='" + pw + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

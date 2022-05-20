@@ -60,7 +60,9 @@ public class RoomService {
                 .build();
 
         Room result = roomRepository.save(room);
-        memberRepository.getById(id).getRooms().add(result);
+        Member member = memberRepository.getById(id);
+        member.getRooms().add(result);
+        result.getMembers().add(member);
 
         return result;
     }

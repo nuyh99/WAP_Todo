@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,7 +25,7 @@ public class Room {
 
     private String introduce;
 
-    @Column(length = 6)
+    @Column(length = 10)
     private String code;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
@@ -34,4 +33,15 @@ public class Room {
 
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
     private List<Member> members;
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "num=" + num +
+                ", master='" + master + '\'' +
+                ", title='" + title + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", code='" + code + '\'' +
+                '}';
+    }
 }
