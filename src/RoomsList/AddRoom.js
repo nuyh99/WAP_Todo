@@ -85,7 +85,6 @@ const AddRoom = () => {
             />
             <br />
             <TextField
-              autoFocus
               margin="dense"
               name="introduce"
               label="Room's Intro"

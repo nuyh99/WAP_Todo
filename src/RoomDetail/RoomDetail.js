@@ -23,6 +23,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import Chat from "./Chat";
 function RoomDetail() {
   const param = useParams();
   console.log(param.roomid); // param으로 roomId 식별
@@ -99,6 +100,8 @@ function RoomDetail() {
     date: "",
     isEdit: false,
   });
+
+  const [isOpenChat, setIsOpenChat] = useState(false);
 
   // ToDo 추가하거나 가져올 때 호출되는 함수
   const itemforEach = async (itemsFromBackend) => {
@@ -564,6 +567,9 @@ function RoomDetail() {
       ) : (
         ""
       )}
+      <div style={{textAlign : "right"}}>
+      <Chat endPoint={param.roomid}/>
+      </div>
     </>
   );
 }
