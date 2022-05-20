@@ -46,8 +46,8 @@ class UserServiceTest {
     @DisplayName("중복 회원가입")
     public void duplicateJoin() throws NoSuchAlgorithmException {
         //given
-        Member member = new Member("test", "123", "헤헤", null,null);
-        Member member2 = new Member("test", "123", "헤헤", null,null);
+        Member member = new Member("testabcd", "123", "헤헤", null,null);
+        Member member2 = new Member("testabcd", "123", "헤헤", null,null);
 
         //when
         userService.join(member);

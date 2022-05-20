@@ -91,17 +91,15 @@ public class RoomService {
 
     //투두 등록 및 수정
     @Transactional
-    public Todo updateTodo(Long num, Todo todo, String id) {
-        if (todo.getId() != null && todoRepository.existsById(todo.getId())) {      //투두 수정
-            todo.setLastUpdateId(id);
+    public Todo updateTodo(Long num, Todo todo) {
+        if (todo.getId() != null) {      //투두 수정
             return todoRepository.save(todo);
         } else {                                            //투두 등록
             Todo result = Todo.builder()
                     .room(roomRepository.getById(num))
                     .content(todo.getContent())
                     .deadline(todo.getDeadline())
-                    .lastUpdateId(id)
-                    .isEditing(false)
+                    .lastUpdateId(todo.getLastUpdateId())
                     .status(todo.getStatus())
                     .todoIndex(todo.getTodoIndex())
                     .build();

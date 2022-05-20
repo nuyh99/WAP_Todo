@@ -1,5 +1,6 @@
 package Wap.Todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,11 +29,12 @@ public class Room {
     @Column(length = 10)
     private String code;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Todo> todos = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
-    private List<Member> members;
+    private List<Member> members=new ArrayList<>();
 
     @Override
     public String toString() {

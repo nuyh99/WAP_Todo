@@ -1,15 +1,16 @@
 package Wap.Todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 @Entity
 @Table(name = "member")
@@ -27,7 +28,7 @@ public class  Member {
     @Column(length = 30)
     private String email;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "member_room",
             joinColumns = @JoinColumn(name = "member_id"),

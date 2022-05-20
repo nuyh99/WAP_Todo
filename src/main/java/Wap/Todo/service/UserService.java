@@ -61,7 +61,10 @@ public class UserService {
 
             Optional<Member> byId = memberRepository.findById(member.getId());
             if(byId.isPresent() && byId.get().getPw().equals(builder.toString()))
-                return byId.get().getId()+", "+byId.get().getName();
+                return "Member{" +
+                        "id='" + byId.get().getId() + '\'' +
+                        ", name='" + byId.get().getName() + '\'' +
+                        '}';
         }
 
         return null;
@@ -70,7 +73,7 @@ public class UserService {
     //방 목록 조회
     @Transactional
     public List<Room> getRoomsById(String id) {
-        Optional<Member> byId = memberRepository.findById(id);
-        return byId.map(member -> member.getRooms().stream().toList()).orElse(null);
+        Member byId = memberRepository.getById(id);
+        return byId.getRooms().stream().toList();
     }
 }
