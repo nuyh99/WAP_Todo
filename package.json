@@ -31,13 +31,9 @@
     "react-scripts": "5.0.1",
     "react-uuid": "^1.0.2",
     "redux": "^4.2.0",
-<<<<<<< HEAD
-    "sockjs-client": "^1.6.0",
-=======
     "socket.io-client": "^4.5.1",
     "sockjs-client": "^1.6.0",
     "stompjs": "^2.3.3",
->>>>>>> 4bba0cc9587a230b4c0b1e540caa66bc71c403d1
     "sweetalert2": "^11.4.14",
     "web-vitals": "^2.1.4"
   },
