@@ -20,8 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const RoomSetting = () => {
-  // 방 url을 가져와서 초대코드 생성
-  const param = useParams();
+  const param = useParams(); // 방 url을 가져와서 초대코드 생성
   const room_Id = param.roomid;
 
   const [open, setOpen] = React.useState(false);
@@ -41,10 +40,15 @@ const RoomSetting = () => {
         onClick={handleClickOpen}
         endIcon={<SettingsApplicationsOutlinedIcon />}
       >
-        Setting
+        방 상세정보
       </Button>
       <Dialog
-        fullScreen
+        fullWidth
+        style={{
+          position: "fixed",
+          width: "100%",
+          height: "100%",
+        }}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -60,16 +64,13 @@ const RoomSetting = () => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              방 상세 정보
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
+            <ListItemText primary="방장" secondary="Titania" />
           </ListItem>
           <Divider />
           <ListItem button>

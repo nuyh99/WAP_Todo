@@ -23,9 +23,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import Chat from "./Chat";
+
 function RoomDetail() {
   const param = useParams();
-  console.log(param.roomid); // param으로 roomId 식별
 
   useEffect(() => {
     getToDos();
@@ -564,6 +565,7 @@ function RoomDetail() {
       ) : (
         ""
       )}
+      <Chat room_num={param.roomid} />
     </>
   );
 }
