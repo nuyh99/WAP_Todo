@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 
 const Chat = (prop) => {
+  console.log("chat");
   const room_num = prop.room_num;
   const client = useRef(null);
 
