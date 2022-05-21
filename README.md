@@ -24,3 +24,8 @@ ToDoTogether 프로젝트의 Front-End Repository입니다.
   - date-fns
   - react-loader-spinner
   - sweetalert2
+  - @stomp/stompjs
+  - socket.io-client
+  - sockjs-client --save
+  - stompjs --save
+  - net

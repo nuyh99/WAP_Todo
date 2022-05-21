@@ -101,6 +101,8 @@ function RoomDetail() {
     isEdit: false,
   });
 
+  const [isOpenChat, setIsOpenChat] = useState(false);
+
   // ToDo 추가하거나 가져올 때 호출되는 함수
   const itemforEach = async (itemsFromBackend) => {
     await itemsFromBackend.forEach((element) => {
@@ -565,7 +567,9 @@ function RoomDetail() {
       ) : (
         ""
       )}
-      <Chat room_num={param.roomid} />
+      <div style={{textAlign : "right"}}>
+      <Chat endPoint={param.roomid}/>
+      </div>
     </>
   );
 }
