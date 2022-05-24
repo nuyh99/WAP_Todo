@@ -567,8 +567,8 @@ function RoomDetail() {
       ) : (
         ""
       )}
-      <div style={{textAlign : "right"}}>
-      <Chat endPoint={param.roomid}/>
+      <div style={{ textAlign: "right" }}>
+        <Chat endPoint={param.roomid} />
       </div>
     </>
   );

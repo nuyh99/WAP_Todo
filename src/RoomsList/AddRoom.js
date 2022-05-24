@@ -38,6 +38,10 @@ const AddRoom = () => {
     setNewRoom({ ...newRoom, [name]: value });
   };
 
+  const hi = () => {
+    console.log("asd");
+  }
+
   const onSubmitFunc = async (e) => {
     e.preventDefault();
     const res = await axios({

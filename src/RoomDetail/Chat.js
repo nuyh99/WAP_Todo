@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import { Button } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
+import { common } from "@mui/material/colors";
 
 const Chat = (prop) => {
-  console.log("chat");
   const room_num = prop.room_num;
+
   const client = useRef(null);
 
   const [isOpenChat, setIsOpenChat] = useState(false); // Chat 아이콘 클릭 여부
@@ -51,8 +52,8 @@ const Chat = (prop) => {
         body: JSON.stringify({
           room: room_num,
           message: chat,
-          id: "세션스토리지 아이디",
-          name: "세션스토리지 네임",
+          id: "test",
+          name: "test",
         }),
       });
     }
