@@ -38,7 +38,7 @@ const Login = () => {
         sessionStorage.setItem("name", res.data);
         setInterval(() => {
           window.location.replace("/");
-        }, 10000);
+        }, 1000);
       }
     }
   };
