@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import uuid from "react-uuid";
 import * as React from "react";
@@ -568,7 +568,7 @@ function RoomDetail() {
         ""
       )}
       <div style={{ textAlign: "right" }}>
-        <Chat endPoint={param.roomid} />
+        <Link to={`/room/chat/${param.roomid}`}>채팅</Link>
       </div>
     </>
   );
