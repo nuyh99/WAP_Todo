@@ -5,6 +5,7 @@ import PersonalRooms from "./RoomsList/PersonalRooms";
 import RoomDetail from "./RoomDetail/RoomDetail";
 import Login from "./Register/Login";
 import Form from "./Register/Form";
+import Chat from "./RoomDetail/Chat";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -19,6 +20,7 @@ function App() {
           <>
             <Route path="/" element={<PersonalRooms />}></Route>
             <Route path="/room/:roomid" element={<RoomDetail />}></Route>
+            <Route path="/room/chat/:roomid" element={<Chat />}></Route>
           </>
         ) : (
           <>
