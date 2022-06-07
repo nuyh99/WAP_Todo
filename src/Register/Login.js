@@ -33,7 +33,6 @@ const Login = () => {
       if (res.data === "") {
         console.log("로그인 실패");
       } else {
-        console.log(res.data);
         sessionStorage.setItem("isAuth", true);
         sessionStorage.setItem("name", res.data);
         setInterval(() => {

@@ -8,6 +8,8 @@ import * as React from "react";
 import RoomSetting from "./RoomSetting";
 import ToDoDetail from "./ToDoDetail";
 
+import { Client } from "@stomp/stompjs";
+
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import {
   Button,
@@ -26,105 +28,40 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Chat from "./Chat";
 
 function RoomDetail() {
-  const param = useParams();
+  
+  const param = useParams().roomid; // url에서 roomid가져오기
 
-  useEffect(() => {
-    getToDos();
-  }, []);
-
-  const getToDos = async () => {
+  const getToDos = async () => {  // 첫 접속시 toDos 가져오는 함수
     const res = await axios({
       method: "get",
-      url: `http://localhost:8080/room/${param.roomid}`,
+      url: `http://localhost:8080/room/${param}`,
     });
     if (res.status === 200) {
-      console.log(res.data);
+      console.log(JSON.parse(res.data));
+      setColumns(JSON.parse(res.data));
     } else {
       console.log(res);
     }
   };
 
-  // 백엔드에 저장된 ToDo라 가정
-  const [itemsFromBackend, setItemFromBackend] = useState([
-    {
-      condition: "ready",
-      index: 0,
-      title: "알고리즘",
-      content: "알고리즘 과제",
-      date: "2022-05-11",
-      isEdit: false,
-      id: uuid(),
-    },
-  ]);
+  useEffect(() => { // 첫 접속시 todos 가져오기
+    getToDos();
+  }, []);
 
-  // 받아온 ToDo를 condition에 따라 분류
-  const columnsFromBackend = {
-    ready: {
-      name: "진행 예정",
-      items: [],
-    },
-    processing: {
-      name: "진행 중",
-      items: [],
-    },
-    done: {
-      name: "진행 완료",
-      items: [],
-    },
-    defer: {
-      name: "잠정 보류",
-      items: [],
-    },
-  };
 
-  // 백에서 가져온 ToDo를 저장하기위한 State
-  const [columns, setColumns] = useState(columnsFromBackend);
-
-  // columns가 바뀔때 마다
-  useEffect(() => {
-    console.log("hi");
-  }, [columns]);
-
-  // 백에서 자료를 다 가져왔는지 확인
-  const [loading, setLoading] = useState(true);
-
-  // 일정 추가버튼 onClick 여부
-  const [isClick, setIsClick] = useState(false);
-
-  // 일정 추가
-  const [toDoAdd, setToDoAdd] = useState({
-    condition: "ready",
-    index: 0,
-    title: "",
-    content: "",
-    date: "",
-    isEdit: false,
-  });
-
-  const [isOpenChat, setIsOpenChat] = useState(false);
-
-  // ToDo 추가하거나 가져올 때 호출되는 함수
-  const itemforEach = async (itemsFromBackend) => {
-    await itemsFromBackend.forEach((element) => {
-      columnsFromBackend[element.condition].items.push(element);
-    });
-    await setColumns(columnsFromBackend);
-    // 다 가져오면 setLoading을 false로 바꿔 화면에 ToDo가 렌더링 되게 변경
-    await setLoading(false);
-  };
-
-  // ToDo를 가져오거나, 추가될 때 사용되는 Hook
-  useEffect(() => {
-    itemforEach(itemsFromBackend);
-  }, [itemsFromBackend]);
-
-  // ToDo를 수정중일 때 수정중인 ToDo의 isEdit을 true로 설정
+  
+  // Drag 시작
   const onDragStart = (result, columns, setColumns) => {
-    columns[result.source.droppableId].items.forEach((element) => {
-      if (element.id === result.draggableId) {
-        element.isEdit = true;
-      }
-    });
+    
+    // 06.07 수정 내용 isEditing일 땐 true 변경 안되게
+
+    // columns[result.source.droppableId].items.forEach((element) => {
+    //   if (element.id === result.draggableId) {
+    //     element.isEdit = true;
+    //   }
+    // });
+
+    // // 여기에 publish 하기
   };
 
   // Drag And Drop 구현부 시작부분
@@ -139,9 +76,6 @@ function RoomDetail() {
       const sourceItems = [...sourceColumn.items];
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
-
-      // Drop한 Todo의 isEdit을 False로 설정
-      removed.isEdit = false;
 
       // sourceItem의 index 재 정렬
       sourceItems.forEach((element) => {
@@ -235,19 +169,23 @@ function RoomDetail() {
   // toDo 등록 버튼
   const toDoAddFunc = (e) => {
     e.preventDefault();
+    
+    // newItem을 작성한 걸로
     const newItem = {
       condition: "ready",
-      index: columns["ready"].items.length,
-      title: toDoAdd.title,
+      todoIndex: columns["ready"].items.length,
       content: toDoAdd.content,
-      date: toDoAdd.date,
+      deadlinde: toDoAdd.date,
       isEdit: false,
     };
 
-    setItemFromBackend([...itemsFromBackend, newItem]);
+    // 추가한 toDo를 columns에 추가
+    setColumns([...setColumns, newItem]);
 
+    // 등록하기 닫기
     setIsClick((prev) => !prev);
   };
+
 
   // toDo 삭제
   const toDoDeleteFunc = (e) => {
@@ -257,7 +195,7 @@ function RoomDetail() {
       let sortIndex = 0;
 
       // 다른 Condition을 가진 배열 가져오기
-      const anotherConditionArr = itemsFromBackend.filter(
+      const anotherConditionArr = columns.filter(
         (element) => element.condition !== id
       );
 
@@ -275,9 +213,129 @@ function RoomDetail() {
           element.index -= 1;
         }
       });
-      setItemFromBackend([...anotherConditionArr, ...updateArr]);
+      setColumns([...anotherConditionArr, ...updateArr]);
     }
   };
+
+
+  // 받아온 ToDo를 condition에 따라 분류
+  const columnsFromBackend = {
+    ready: {
+      name: "진행 예정",
+      items: [],
+    },
+    processing: {
+      name: "진행 중",
+      items: [],
+    },
+    done: {
+      name: "진행 완료",
+      items: [],
+    },
+    defer: {
+      name: "잠정 보류",
+      items: [],
+    },
+  };
+
+  // 백에서 가져온 ToDo를 저장하기위한 State
+  const [columns, setColumns] = useState(columnsFromBackend);
+
+  // columns가 바뀔때 마다
+  useEffect(() => {
+  }, [columns]);
+
+
+  // 일정 추가버튼 onClick 여부
+  const [isClick, setIsClick] = useState(false);
+
+
+  // 일정 추가
+  // 백에 보낼 거 : condition, todoIndex, content, deadline, isEditing
+  const [toDoAdd, setToDoAdd] = useState({
+    condition: "ready",
+    index: 0,
+    content: "",
+    deadline: "",
+    isEditing: false,
+  });
+
+  const [isOpenChat, setIsOpenChat] = useState(false);
+
+  // ToDo 추가하거나 가져올 때 호출되는 함수
+  const itemforEach = async (itemsFromBackend) => {
+    await itemsFromBackend.forEach((element) => {
+      columnsFromBackend[element.condition].items.push(element);
+    });
+    await setColumns(columnsFromBackend);
+    // 다 가져오면 setLoading을 false로 바꿔 화면에 ToDo가 렌더링 되게 변경
+  };
+
+
+
+  
+
+  const sendToDosFunc = () => {
+    console.log("hiss");
+    handler();
+  }
+
+
+  /* todo websocket*/
+  const client = React.useRef(null);
+
+  useEffect(() => {
+    connect();
+    return () => disConnect();
+  }, []);
+
+
+  const subscribe = () => {
+    if (client.current != null) {
+      client.current.subscribe(`/topic/todo/${param}}`, (data) => {
+        const newMessage = JSON.parse(data.body);
+        // 받아온 메세지를 순차적으로 저장
+
+      });
+    }
+  };
+
+
+  const connect = () => {
+    client.current = new Client({
+      brokerURL: "ws://localhost:8080/ws/websocket",
+      debug: function (str) {
+        console.log(str);
+      },
+      onConnect: () => {
+        subscribe();
+      },
+    });
+    client.current.activate();
+  };
+
+  const handler = () => {
+    if (client.current != null) {
+      if (!client.current.connected) {
+        return;
+      }
+      client.current.publish({
+        destination: `/app/todo/${param}`,
+        body: JSON.stringify({
+          todos : columns
+        }),
+      });
+    }
+  };
+
+  const disConnect = () => {
+    if (client.current != null) {
+      if (client.current.connected) client.current.deactivate();
+    }
+    console.log("disconnected");
+  };
+ /* todo websocket*/
+
 
   // dialog 오픈 여부
   const [open, setOpen] = useState(false);
@@ -299,8 +357,8 @@ function RoomDetail() {
     const fixToDo = childToDo;
     console.log(fixToDo);
 
-    setItemFromBackend([
-      ...itemsFromBackend.filter((element) => element.id !== fixToDo.id),
+    setColumns([
+      ...columns.filter((element) => element.id !== fixToDo.id),
       fixToDo,
     ]);
   };
@@ -546,6 +604,7 @@ function RoomDetail() {
             </form>
           </div>
         ) : (
+          <>
           <Button
             onClick={onClickAddOpen}
             endIcon={<AddTaskIcon />}
@@ -553,6 +612,11 @@ function RoomDetail() {
           >
             일정 추가하기
           </Button>
+          <Button
+          onClick={sendToDosFunc}>
+            todotest
+          </Button>
+          </>
         )}
       </div>
       <div style={{ textAlign: "right" }}>
