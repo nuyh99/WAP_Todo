@@ -42,6 +42,12 @@ public class RoomService {
         return null;
     }
 
+    //방 초대코드 받기
+    @Transactional
+    public String getInviteCode(Long num) {
+        return roomRepository.getById(num).getCode();
+    }
+
     //방 만들기
     @Transactional
     public Room joinRoom(String introduce, String title, String id) {

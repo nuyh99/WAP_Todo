@@ -44,11 +44,10 @@ public class UserController {
     //로그인
     @PostMapping("/login")
     @ResponseBody
-    public String login(@RequestBody Member member, HttpSession session) throws NoSuchAlgorithmException {
-        String login = userService.login(member);
+    public Member login(@RequestBody Member member, HttpSession session) throws NoSuchAlgorithmException {
+        Member login = userService.login(member);
         if(login == null)
             return null;
-
 
         session.setAttribute("memberId", member.getId());
         session.setAttribute("memberName", member.getName());

@@ -1,12 +1,12 @@
 package Wap.Todo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString(exclude = "members")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,18 +32,7 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Todo> todos = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
     private List<Member> members=new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Room{" +
-                "num=" + num +
-                ", master='" + master + '\'' +
-                ", title='" + title + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", code='" + code + '\'' +
-                '}';
-    }
 }

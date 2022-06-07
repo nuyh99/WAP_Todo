@@ -51,7 +51,7 @@ public class UserService {
 
     //로그인 id, pw 확인
     @Transactional
-    public String login(Member member) throws NoSuchAlgorithmException {
+    public Member login(Member member) throws NoSuchAlgorithmException {
         if(memberRepository.existsById(member.getId())) {
             MessageDigest md= MessageDigest.getInstance("SHA-256");
             md.update(md.digest(member.getPw().getBytes(StandardCharsets.UTF_8)));
@@ -61,10 +61,7 @@ public class UserService {
 
             Optional<Member> byId = memberRepository.findById(member.getId());
             if(byId.isPresent() && byId.get().getPw().equals(builder.toString()))
-                return "Member{" +
-                        "id='" + byId.get().getId() + '\'' +
-                        ", name='" + byId.get().getName() + '\'' +
-                        '}';
+                return member;
         }
 
         return null;

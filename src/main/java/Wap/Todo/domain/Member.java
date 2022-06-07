@@ -1,11 +1,9 @@
 package Wap.Todo.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter @Setter
@@ -13,6 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "rooms")
 @Table(name = "member")
 public class  Member {
     @Id
@@ -35,13 +34,4 @@ public class  Member {
             inverseJoinColumns = @JoinColumn(name = "room_num"))
     private Set<Room> rooms = new HashSet<>();
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id='" + id + '\'' +
-                ", pw='" + pw + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

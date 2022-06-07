@@ -4,6 +4,7 @@ import Wap.Todo.domain.Room;
 import Wap.Todo.domain.Todo;
 import Wap.Todo.service.RoomService;
 import Wap.Todo.vo.TodoVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/room")
 public class RoomController {
 
     private final RoomService roomService;
-
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
 
     //방삭제
     @DeleteMapping("/{room_num}")
@@ -55,6 +53,13 @@ public class RoomController {
     public List<Todo> enterRoom(@PathVariable("room_num") Long num){
 
         return new TodoVO(roomService.getTodos(num)).getTodos();
+    }
+
+    //초대 코드 받기
+    @GetMapping("/{room_num}/code")
+    @ResponseBody
+    public String getCode(@PathVariable("room_num") Long num) {
+        return roomService.getInviteCode(num);
     }
 
     //투두 삭제

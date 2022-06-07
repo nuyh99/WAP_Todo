@@ -35,7 +35,7 @@ class UserServiceTest {
         Member member = new Member("test", "123", "헤헤", null,null);
 
         //when
-        userService.join(member);
+        member=userService.join(member);
 
         //then
         assertThat(memberRepository.findById(member.getId()).get().getId()).isEqualTo("test");
