@@ -1,5 +1,7 @@
 package Wap.Todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,6 +34,7 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Todo> todos = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
     private List<Member> members=new ArrayList<>();
 
