@@ -99,11 +99,12 @@ public class RoomService {
     @Transactional
     public Todo updateTodo(Long num, Todo todo) {
         todo.setRoom(roomRepository.getById(num));
+        Todo save = todoRepository.save(todo);
 
         if(!todoRepository.existsById(todo.getId()))
-            roomRepository.getById(num).getTodos().add(todo);
+            roomRepository.getById(num).getTodos().add(save);
 
-        return todoRepository.save(todo);
+        return save;
     }
 
     //투두 삭제
