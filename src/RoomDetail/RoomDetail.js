@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -8,8 +8,8 @@ import * as React from "react";
 import RoomSetting from "./RoomSetting";
 import ToDoDetail from "./ToDoDetail";
 
+import ChatIcon from "@mui/icons-material/Chat";
 import { Client } from "@stomp/stompjs";
-
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import {
   Button,
@@ -19,6 +19,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+
 import PublishIcon from "@mui/icons-material/Publish";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -28,39 +29,50 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Chat from "./Chat";
 
 function RoomDetail() {
-  
   const param = useParams().roomid; // url에서 roomid가져오기
+  const [inviteCode, setInviteCode] = useState("");
 
-  const getToDos = async () => {  // 첫 접속시 toDos 가져오는 함수
+  // 처음 todo 가져오기전에 웹소켓 연결 x
+  const [loading, setLoading] = useState(false);
+
+  // 첫 접속시 toDos 가져오는 함수
+  const getToDos = async () => {
     const res = await axios({
       method: "get",
       url: `http://localhost:8080/room/${param}`,
     });
     if (res.status === 200) {
-      console.log(JSON.parse(res.data));
-      setColumns(JSON.parse(res.data));
+      console.log(res.data);
+      setColumnsFromBackend(res.data);
     } else {
       console.log(res);
     }
   };
 
-  useEffect(() => { // 첫 접속시 todos 가져오기
+  const getInviteCode = async () => {
+    const res = await axios({
+      method: "get",
+      url: `http://localhost:8080/room/code/${param}`,
+    });
+    if (res.status === 200) {
+      setInviteCode(res.data);
+    }
+  };
+
+  // 첫 접속시 todos 가져오기
+  useEffect(() => {
     getToDos();
+    getInviteCode();
   }, []);
 
-
-  
   // Drag 시작
   const onDragStart = (result, columns, setColumns) => {
-    
     // 06.07 수정 내용 isEditing일 땐 true 변경 안되게
-
     // columns[result.source.droppableId].items.forEach((element) => {
     //   if (element.id === result.draggableId) {
     //     element.isEdit = true;
     //   }
     // });
-
     // // 여기에 publish 하기
   };
 
@@ -70,28 +82,36 @@ function RoomDetail() {
     const { source, destination } = result;
 
     if (source.droppableId !== destination.droppableId) {
+      // 출발지, 목적지 column 가져오기
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
 
+      // 출발지, 목적지의 items 배열 가져오기
       const sourceItems = [...sourceColumn.items];
       const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
 
-      // sourceItem의 index 재 정렬
+      const [removed] = sourceItems.splice(source.index, 1);
+      console.log(removed);
+      console.log(sourceItems);
+
+      // sourceItem의 index 재정렬
+      console.log(sourceItems);
       sourceItems.forEach((element) => {
-        if (element.index > source.index) {
-          element.index -= 1;
+        if (element.todoIndex > source.index) {
+          element.todoIndex -= 1;
         }
       });
 
       // Column이 다르면 condition과 index를 변경
-      removed.condition = destination.droppableId;
+      removed.status = destination.droppableId;
       // 옮기는 Item의 항목의 index를 destination의 index로 변경
-      removed.index = destination.index;
+      console.log(removed);
+
+      removed.todoIndex = destination.index;
       // destination의 index를 재 정렬
       destItems.forEach((element) => {
-        if (element.index >= destination.index) {
-          element.index += 1;
+        if (element.todoIndex >= destination.index) {
+          element.todoIndex += 1;
         }
       });
 
@@ -114,9 +134,7 @@ function RoomDetail() {
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
 
-      // isEdit False로
-      removed.isEdit = false;
-      removed.index = destination.index;
+      removed.todoIndex = destination.index;
 
       copiedItems.splice(destination.index, 0, removed);
 
@@ -127,7 +145,7 @@ function RoomDetail() {
       // Droppable Item의 Index 재정렬
       let test = 0;
       copiedItems.forEach((element) => {
-        element.index = test;
+        element.todoIndex = test;
         test++;
       });
 
@@ -143,49 +161,46 @@ function RoomDetail() {
   };
   // Drag And Drop 구현부 끝부분
 
-  // 일정 추가하기 및 취소 버튼
+  // 새로운 todo 추가 및 취소 버튼
   const onClickAddOpen = (e) => {
     setIsClick((prev) => !prev);
     setToDoAdd({
-      title: "",
       content: "",
       date: new Date().toLocaleDateString(),
     });
-    console.log(toDoAdd.date);
   };
 
-  // 일정 추가 Input
+  // 새로운 todo 추가 textfield 변경 함수
   const toDoInputFunc = (e) => {
-    console.log(e.target);
     const { name, value } = e.target;
     setToDoAdd({ ...toDoAdd, [name]: value });
   };
+
+  // 새로운 todo 기간 설정 함수
   const setDate = (newDate) => {
     const setNewDate = newDate.toLocaleDateString();
     console.log(setNewDate);
     setToDoAdd({ ...toDoAdd, date: setNewDate });
   };
 
-  // toDo 등록 버튼
+  // 새로운 toDo 등록 함수
   const toDoAddFunc = (e) => {
     e.preventDefault();
-    
     // newItem을 작성한 걸로
     const newItem = {
-      condition: "ready",
-      todoIndex: columns["ready"].items.length,
+      status: "READY",
+      todoIndex: columns["READY"].items.length,
       content: toDoAdd.content,
-      deadlinde: toDoAdd.date,
-      isEdit: false,
+      deadline: "2022-06-08",
+      isEditing: false,
     };
 
     // 추가한 toDo를 columns에 추가
-    setColumns([...setColumns, newItem]);
+    setColumnsFromBackend([...columnsFromBackend, newItem]);
 
-    // 등록하기 닫기
+    // 등록하기 버튼 클릭스 일정 추가하기 dialog 닫기
     setIsClick((prev) => !prev);
   };
-
 
   // toDo 삭제
   const toDoDeleteFunc = (e) => {
@@ -195,8 +210,8 @@ function RoomDetail() {
       let sortIndex = 0;
 
       // 다른 Condition을 가진 배열 가져오기
-      const anotherConditionArr = columns.filter(
-        (element) => element.condition !== id
+      const anotherConditionArr = columnsFromBackend.filter(
+        (element) => element.status !== id
       );
 
       // filter를 통해 내가 삭제를 원하는 item을 빼고 새 배열을 생성
@@ -213,93 +228,100 @@ function RoomDetail() {
           element.index -= 1;
         }
       });
-      setColumns([...anotherConditionArr, ...updateArr]);
+      setColumnsFromBackend([...anotherConditionArr, ...updateArr]);
     }
   };
 
+  // 가져온 toDo
+  const [columnsFromBackend, setColumnsFromBackend] = useState([]);
 
-  // 받아온 ToDo를 condition에 따라 분류
-  const columnsFromBackend = {
-    ready: {
+  // condition에 맞게 toDo나열
+  const [columns, setColumns] = useState({
+    READY: {
       name: "진행 예정",
       items: [],
     },
-    processing: {
+    PROCESSING: {
       name: "진행 중",
       items: [],
     },
-    done: {
+    DONE: {
       name: "진행 완료",
       items: [],
     },
-    defer: {
+    DEFER: {
       name: "잠정 보류",
       items: [],
     },
-  };
+  });
 
-  // 백에서 가져온 ToDo를 저장하기위한 State
-  const [columns, setColumns] = useState(columnsFromBackend);
-
-  // columns가 바뀔때 마다
-  useEffect(() => {
-  }, [columns]);
-
-
-  // 일정 추가버튼 onClick 여부
+  // 일정 추가버튼 click 여부
   const [isClick, setIsClick] = useState(false);
 
-
-  // 일정 추가
-  // 백에 보낼 거 : condition, todoIndex, content, deadline, isEditing
+  // 일정 추가(condition, todoIndex, content, deadline, isEditing)
   const [toDoAdd, setToDoAdd] = useState({
-    condition: "ready",
-    index: 0,
+    status: "READY",
+    todoIndex: 0,
     content: "",
     deadline: "",
     isEditing: false,
   });
 
-  const [isOpenChat, setIsOpenChat] = useState(false);
+  // todo들이 바뀌면
+  useEffect(() => {
+    console.log("todos is change!");
+    itemforEach(columnsFromBackend);
+  }, [columnsFromBackend]);
 
-  // ToDo 추가하거나 가져올 때 호출되는 함수
-  const itemforEach = async (itemsFromBackend) => {
-    await itemsFromBackend.forEach((element) => {
-      columnsFromBackend[element.condition].items.push(element);
+  // ToDo 내용 변경, 추가, 삭제시 호출되는 함수
+  const itemforEach = async (items) => {
+    const newToDos = {
+      ...columns,
+      READY: {
+        name: "진행 예정",
+        items: [],
+      },
+      PROCESSING: {
+        name: "진행 중",
+        items: [],
+      },
+      DONE: {
+        name: "진행 완료",
+        items: [],
+      },
+      DEFER: {
+        name: "잠정 보류",
+        items: [],
+      },
+    };
+    await items.forEach((element) => {
+      newToDos[element.status].items.push(element);
     });
-    await setColumns(columnsFromBackend);
-    // 다 가져오면 setLoading을 false로 바꿔 화면에 ToDo가 렌더링 되게 변경
+    setColumns(newToDos);
   };
 
-
-
-  
+  /* todo websocket*/
+  const client = useRef(null);
 
   const sendToDosFunc = () => {
-    console.log("hiss");
     handler();
-  }
-
-
-  /* todo websocket*/
-  const client = React.useRef(null);
+  };
 
   useEffect(() => {
     connect();
     return () => disConnect();
   }, []);
 
-
   const subscribe = () => {
+    console.log("subscribe");
     if (client.current != null) {
-      client.current.subscribe(`/topic/todo/${param}}`, (data) => {
+      client.current.subscribe(`/topic/todo/${param}`, (data) => {
         const newMessage = JSON.parse(data.body);
+        console.log(newMessage);
         // 받아온 메세지를 순차적으로 저장
-
       });
     }
   };
-
 
   const connect = () => {
     client.current = new Client({
@@ -322,7 +344,7 @@ function RoomDetail() {
       client.current.publish({
         destination: `/app/todo/${param}`,
         body: JSON.stringify({
-          todos : columns
+          todos: columnsFromBackend,
         }),
       });
     }
@@ -334,10 +356,9 @@ function RoomDetail() {
     }
     console.log("disconnected");
   };
- /* todo websocket*/
+  /* todo websocket*/
 
-
-  // dialog 오픈 여부
+  // 방 상세 정보 dialog 오픈 여부
   const [open, setOpen] = useState(false);
 
   // 수정하려는 toDo, ToDoDetail에 넘기기 위해
@@ -356,14 +377,13 @@ function RoomDetail() {
   const writeTodoFunc = (childToDo) => {
     const fixToDo = childToDo;
     console.log(fixToDo);
-
     setColumns([
       ...columns.filter((element) => element.id !== fixToDo.id),
       fixToDo,
     ]);
   };
 
-  // 05.09 Add Date
+  console.log(columnsFromBackend);
 
   return (
     <>
@@ -517,7 +537,7 @@ function RoomDetail() {
                                             color="error"
                                             onClick={toDoDeleteFunc}
                                             value={item.id}
-                                            id={item.condition}
+                                            id={item.status}
                                             disableElevation
                                             startIcon={<DeleteForeverIcon />}
                                           >
@@ -552,18 +572,6 @@ function RoomDetail() {
             }}
           >
             <form type="submit" onSubmit={toDoAddFunc}>
-              <TextField
-                autoFocus
-                margin="dense"
-                name="title"
-                label="ToDo 제목"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={toDoInputFunc}
-                value={toDoAdd.title}
-                required
-              />
               <TextField
                 margin="dense"
                 name="content"
@@ -605,22 +613,19 @@ function RoomDetail() {
           </div>
         ) : (
           <>
-          <Button
-            onClick={onClickAddOpen}
-            endIcon={<AddTaskIcon />}
-            variant="contained"
-          >
-            일정 추가하기
-          </Button>
-          <Button
-          onClick={sendToDosFunc}>
-            todotest
-          </Button>
+            <Button
+              onClick={onClickAddOpen}
+              endIcon={<AddTaskIcon />}
+              variant="contained"
+            >
+              일정 추가하기
+            </Button>
+            <Button onClick={sendToDosFunc}>todotest</Button>
           </>
         )}
       </div>
       <div style={{ textAlign: "right" }}>
-        <RoomSetting />
+        <RoomSetting inviteCode={inviteCode} />
       </div>
       {open ? (
         <ToDoDetail
@@ -632,7 +637,21 @@ function RoomDetail() {
         ""
       )}
       <div style={{ textAlign: "right" }}>
-        <Link to={`/room/chat/${param.roomid}`}>채팅</Link>
+        <Button
+          style={{ width: "145px", margin: "5px 0 0 10px" }}
+          variant="outlined"
+          endIcon={<ChatIcon />}
+        >
+          <Link
+            to={`/room/chat/${param}`}
+            style={{
+              textDecoration: "none",
+              color: "gray",
+            }}
+          >
+            채팅
+          </Link>
+        </Button>
       </div>
     </>
   );
