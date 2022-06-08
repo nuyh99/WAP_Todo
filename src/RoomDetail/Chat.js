@@ -5,17 +5,18 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { useParams } from "react-router-dom";
 import uuid from "react-uuid";
 import { border } from "@mui/system";
+import SendIcon from "@mui/icons-material/Send";
 
 const Chat = () => {
   const room_num = useParams();
 
-  const client = useRef(null);
-
-  const [userInfo, setUserInfo] = useState("test"); // 유저 정보 저장
+  const [userInfo, setUserInfo] = useState(sessionStorage.getItem("name")); // 유저 정보 저장
   const [isSend, setIsSend] = useState(false); // Chat 전송 클릭 여부
   const [chat, setChat] = useState("");
 
   const [receiveChats, setReceiveChats] = useState([]);
+
+  const client = useRef(null);
 
   useEffect(() => {
     connect();
@@ -73,8 +74,8 @@ const Chat = () => {
         body: JSON.stringify({
           room: room_num.roomid,
           message: chat,
-          id: "test",
-          name: "test",
+          id: userInfo,
+          name: userInfo,
         }),
       });
     }
@@ -92,24 +93,39 @@ const Chat = () => {
       <h1 style={{ textAlign: "center" }}>실시간 채팅</h1>
       <div
         style={{
-          width: "100vh",
-          height: "100vh",
+          width: "80vh",
+          height: "80vh",
           border: "3px solid gray",
           margin: "0 auto",
         }}
       >
-        <div style={{ width: "80vh", height: "90vh" }}>
+        <div style={{ width: "80vh", height: "70vh" }}>
           {receiveChats.map((chat) => {
             if (chat.id === userInfo) {
               return (
-                <div key={chat.uniId} style={{ color: "red" }}>
+                <div
+                  key={chat.uniId}
+                  style={{
+                    color: "black",
+                    height: "25px",
+                    margin: "5px 0 0 0",
+                  }}
+                >
                   [{chat.name}] : {chat.message}
                 </div>
               );
             } else {
               return (
-                <div key={chat.uniId}>
-                  [{chat.name}] : {chat.message}{" "}
+                <div
+                  key={chat.uniId}
+                  style={{
+                    color: "black",
+                    height: "25px",
+                    margin: "5px 0 0 0",
+                    textAlign: "right",
+                  }}
+                >
+                  {chat.message} : [{chat.name}]
                 </div>
               );
             }
@@ -122,13 +138,13 @@ const Chat = () => {
               onChange={(e) => setChatFunc(e)}
               value={chat}
               variant="outlined"
-              label="Input text"
+              label="Input Message"
               style={{
-                width: "70vh",
+                width: "50vh",
                 margin: "0 10px 0 10px",
               }}
             />
-            <Button variant="outlined" type="submit">
+            <Button variant="outlined" type="submit" endIcon={<SendIcon />}>
               Send Message
             </Button>
           </form>
