@@ -98,22 +98,12 @@ public class RoomService {
     //투두 등록 및 수정
     @Transactional
     public Todo updateTodo(Long num, Todo todo) {
-        if (todo.getId() != null) {      //투두 수정
-            return todoRepository.save(todo);
-        } else {                                            //투두 등록
-            Todo result = Todo.builder()
-                    .room(roomRepository.getById(num))
-                    .content(todo.getContent())
-                    .deadline(todo.getDeadline())
-                    .lastUpdateId(todo.getLastUpdateId())
-                    .status(todo.getStatus())
-                    .todoIndex(todo.getTodoIndex())
-                    .build();
-
-            result = todoRepository.save(result);
-            roomRepository.getById(num).getTodos().add(result);
-            return result;
+        if (todo.getId() == null) {
+            todo.setRoom(roomRepository.getById(num));
+            roomRepository.getById(num).getTodos().add(todo);
         }
+
+        return todoRepository.save(todo);
     }
 
     //투두 삭제

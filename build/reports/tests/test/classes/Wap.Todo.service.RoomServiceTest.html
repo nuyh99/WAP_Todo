@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - RoomServiceTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>RoomServiceTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/Wap.Todo.service.html">Wap.Todo.service</a> &gt; RoomServiceTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">9.410s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">방의 마스터가 해당 방을 삭제했을 때 나머지 유저들 CASCADE</td>
+<td class="success">cascadeTest()</td>
+<td class="success">4.637s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">방 삭제</td>
+<td class="success">deleteRoom()</td>
+<td class="success">1.622s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">방 초대 받기</td>
+<td class="success">invitingUser()</td>
+<td class="success">3.151s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-06-09 00:03:36.708  INFO 81615 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [Wap.Todo.service.RoomServiceTest], using SpringBootContextLoader
+2022-06-09 00:03:36.708  INFO 81615 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [Wap.Todo.service.RoomServiceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-06-09 00:03:36.708  INFO 81615 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [Wap.Todo.service.RoomServiceTest]: RoomServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-06-09 00:03:36.711  INFO 81615 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration Wap.Todo.TodoApplication for test class Wap.Todo.service.RoomServiceTest
+2022-06-09 00:03:36.712  INFO 81615 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-06-09 00:03:36.712  INFO 81615 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3f31892e, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3cd89c72, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@7fb46c10, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5a079446, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@694c0ed1, org.springframework.test.context.support.DirtiesContextTestExecutionListener@118f2486, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4d071e4b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@2b441609, org.springframework.test.context.event.EventPublishingTestExecutionListener@22f7bf36, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@4a3404fa, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@3fb4beb1, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@34cb1310, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@2b5a04b0, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@41a3c6f5, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@5b78a946]
+2022-06-09 00:03:37.026  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@62fbefad, testMethod = cascadeTest@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@1a05ff8e]; rollback [true]
+2022-06-09 00:03:37.073 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:37.244 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        member0_.id as id1_0_0_,
+        member0_.email as email2_0_0_,
+        member0_.name as name3_0_0_,
+        member0_.pw as pw4_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:37.415 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        member
+        (email, name, pw, id) 
+    values
+        (?, ?, ?, ?)
+2022-06-09 00:03:37.572 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:37.729 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        member0_.id as id1_0_0_,
+        member0_.email as email2_0_0_,
+        member0_.name as name3_0_0_,
+        member0_.pw as pw4_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:37.900 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        member
+        (email, name, pw, id) 
+    values
+        (?, ?, ?, ?)
+2022-06-09 00:03:38.055 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        room
+        (code, introduce, master, title) 
+    values
+        (?, ?, ?, ?)
+Room(num=369, master=id, title=, introduce=test, code=475da25e-9, todos=[])
+2022-06-09 00:03:38.249 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        room0_.num as num1_2_,
+        room0_.code as code2_2_,
+        room0_.introduce as introduc3_2_,
+        room0_.master as master4_2_,
+        room0_.title as title5_2_ 
+    from
+        room room0_
+2022-06-09 00:03:38.421 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:38.583 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:38.740 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:38.898 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:39.065 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:40.154 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:40.311 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:40.467 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:40.649 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:40.809 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        room room0_ 
+    where
+        room0_.num=?
+[]
+2022-06-09 00:03:41.349  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@62fbefad, testMethod = cascadeTest@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2022-06-09 00:03:41.509  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@28d37d43, testMethod = invitingUser@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@1a05ff8e]; rollback [true]
+2022-06-09 00:03:41.510 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:41.666 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        member0_.id as id1_0_0_,
+        member0_.email as email2_0_0_,
+        member0_.name as name3_0_0_,
+        member0_.pw as pw4_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:41.823 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        member
+        (email, name, pw, id) 
+    values
+        (?, ?, ?, ?)
+2022-06-09 00:03:41.979 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:42.136 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        member0_.id as id1_0_0_,
+        member0_.email as email2_0_0_,
+        member0_.name as name3_0_0_,
+        member0_.pw as pw4_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:42.294 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        member
+        (email, name, pw, id) 
+    values
+        (?, ?, ?, ?)
+2022-06-09 00:03:42.451 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        room
+        (code, introduce, master, title) 
+    values
+        (?, ?, ?, ?)
+Room(num=370, master=id, title=, introduce=test, code=0fff9c85-d, todos=[])
+2022-06-09 00:03:42.609 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        room0_.num as num1_2_,
+        room0_.code as code2_2_,
+        room0_.introduce as introduc3_2_,
+        room0_.master as master4_2_,
+        room0_.title as title5_2_ 
+    from
+        room room0_
+2022-06-09 00:03:42.767 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:42.924 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.086 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.243 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.399 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.556 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.714 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:43.869 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:44.026 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        todos0_.room_num as room_num8_3_0_,
+        todos0_.id as id1_3_0_,
+        todos0_.id as id1_3_1_,
+        todos0_.content as content2_3_1_,
+        todos0_.deadline as deadline3_3_1_,
+        todos0_.is_editing as is_editi4_3_1_,
+        todos0_.last_update_id as last_upd5_3_1_,
+        todos0_.room_num as room_num8_3_1_,
+        todos0_.status as status6_3_1_,
+        todos0_.todo_index as todo_ind7_3_1_ 
+    from
+        todo todos0_ 
+    where
+        todos0_.room_num=?
+2022-06-09 00:03:44.503  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@28d37d43, testMethod = invitingUser@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2022-06-09 00:03:44.677  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@5fcff272, testMethod = deleteRoom@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@1a05ff8e]; rollback [true]
+2022-06-09 00:03:44.681 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:44.839 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        member0_.id as id1_0_0_,
+        member0_.email as email2_0_0_,
+        member0_.name as name3_0_0_,
+        member0_.pw as pw4_0_0_ 
+    from
+        member member0_ 
+    where
+        member0_.id=?
+2022-06-09 00:03:44.996 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        member
+        (email, name, pw, id) 
+    values
+        (?, ?, ?, ?)
+2022-06-09 00:03:45.152 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    insert 
+    into
+        room
+        (code, introduce, master, title) 
+    values
+        (?, ?, ?, ?)
+Room(num=371, master=id, title=제목, introduce=test, code=8b4a4745-d, todos=[])
+2022-06-09 00:03:45.313 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        room room0_ 
+    where
+        room0_.num=?
+2022-06-09 00:03:45.499 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    delete 
+    from
+        room 
+    where
+        num=?
+2022-06-09 00:03:45.658 DEBUG 81615 --- [    Test worker] org.hibernate.SQL                        : 
+    select
+        count(*) as col_0_0_ 
+    from
+        room room0_ 
+    where
+        room0_.num=?
+2022-06-09 00:03:46.128  INFO 81615 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@46a9c368 testClass = RoomServiceTest, testInstance = Wap.Todo.service.RoomServiceTest@5fcff272, testMethod = deleteRoom@RoomServiceTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@79f59e0e testClass = RoomServiceTest, locations = '{}', classes = '{class Wap.Todo.TodoApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@7e5c856f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@58ce9668, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1fa1cab1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@51fadaff, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6c2c1385, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2e377400], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.4.1</a> at 2022. 6. 9. 오전 12:03:50</p>
+</div>
+</div>
+</body>
+</html>

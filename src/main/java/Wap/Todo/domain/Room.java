@@ -31,7 +31,7 @@ public class Room {
     @Column(length = 10)
     private String code;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Todo> todos = new ArrayList<>();
 
     @JsonBackReference

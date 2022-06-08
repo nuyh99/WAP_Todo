@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -14,8 +13,7 @@ import java.util.Date;
 @Table(name = "todo")
 public class Todo {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @JsonBackReference
     @ManyToOne
@@ -37,7 +35,6 @@ public class Todo {
     public String toString() {
         return "Todo{" +
                 "id=" + id +
-                ", room=" + room.getNum() +
                 ", deadline=" + deadline +
                 ", content='" + content + '\'' +
                 ", status=" + status +
