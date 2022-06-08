@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import uuid from "react-uuid";
 import * as React from "react";
@@ -26,16 +26,16 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import Chat from "./Chat";
 
 function RoomDetail() {
   const param = useParams().roomid; // url에서 roomid가져오기
+
   const [inviteCode, setInviteCode] = useState("");
 
   // 처음 todo 가져오기전에 웹소켓 연결 x
   const [loading, setLoading] = useState(false);
 
-  // 첫 접속시 toDos 가져오는 함수
+  // 접속시 toDos 가져옴
   const getToDos = async () => {
     const res = await axios({
       method: "get",
@@ -49,17 +49,18 @@ function RoomDetail() {
     }
   };
 
+  // 접속시 inviteCode 가져옴
   const getInviteCode = async () => {
     const res = await axios({
       method: "get",
-      url: `http://localhost:8080/room/code/${param}`,
+      url: `http://localhost:8080/room/${param}/code`,
     });
     if (res.status === 200) {
       setInviteCode(res.data);
     }
   };
 
-  // 첫 접속시 todos 가져오기
+  // 접속시 todos와 invite code 가져오기
   useEffect(() => {
     getToDos();
     getInviteCode();
@@ -128,6 +129,7 @@ function RoomDetail() {
           items: destItems,
         },
       });
+      sendToDosFunc();
     } else {
       // 같은 Droppable에서 바꿀 때
       const column = columns[source.droppableId];
@@ -157,6 +159,7 @@ function RoomDetail() {
           items: copiedItems,
         },
       });
+      sendToDosFunc();
     }
   };
   // Drag And Drop 구현부 끝부분
@@ -187,12 +190,15 @@ function RoomDetail() {
   const toDoAddFunc = (e) => {
     e.preventDefault();
     // newItem을 작성한 걸로
+
     const newItem = {
       status: "READY",
       todoIndex: columns["READY"].items.length,
       content: toDoAdd.content,
       deadline: "2022-06-08",
       isEditing: false,
+      lastUpdateId: "test",
+      id: uuid(),
     };
 
     // 추가한 toDo를 columns에 추가
@@ -265,6 +271,8 @@ function RoomDetail() {
     content: "",
     deadline: "",
     isEditing: false,
+    id: "",
+    lastUpdateId: "test",
   });
 
   // todo들이 바뀌면
@@ -317,6 +325,7 @@ function RoomDetail() {
     if (client.current != null) {
       client.current.subscribe(`/topic/todo/${param}`, (data) => {
         const newMessage = JSON.parse(data.body);
+        setColumnsFromBackend(newMessage);
         console.log(newMessage);
         // 받아온 메세지를 순차적으로 저장
       });
@@ -341,6 +350,7 @@ function RoomDetail() {
       if (!client.current.connected) {
         return;
       }
+      console.log(columnsFromBackend);
       client.current.publish({
         destination: `/app/todo/${param}`,
         body: JSON.stringify({
@@ -405,6 +415,7 @@ function RoomDetail() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  width: "100%",
                 }}
                 key={columnId}
               >
@@ -422,7 +433,6 @@ function RoomDetail() {
                               : "lightgrey",
                             padding: 4,
                             width: "350px",
-                            minHeight: "400px",
                             borderRadius: "25px 25px 25px 25px",
                           }}
                         >

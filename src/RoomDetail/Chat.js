@@ -2,15 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import { Button, TextField } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import uuid from "react-uuid";
 import { border } from "@mui/system";
 import SendIcon from "@mui/icons-material/Send";
-
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 const Chat = () => {
-  const room_num = useParams();
+  const room_num = useParams().roomid;
 
   const [userInfo, setUserInfo] = useState(sessionStorage.getItem("name")); // 유저 정보 저장
+
+  const navi = useNavigate();
+
   const [isSend, setIsSend] = useState(false); // Chat 전송 클릭 여부
   const [chat, setChat] = useState("");
 
@@ -38,13 +41,10 @@ const Chat = () => {
 
   const subscribe = () => {
     if (client.current != null) {
-      client.current.subscribe(`/topic/chat/${room_num.roomid}`, (data) => {
+      client.current.subscribe(`/topic/chat/${room_num}`, (data) => {
         const newMessage = JSON.parse(data.body);
         // 받아온 메세지를 순차적으로 저장
-        setReceiveChats((receiveChats) => [
-          ...receiveChats,
-          { ...newMessage, uniId: uuid() },
-        ]);
+        setReceiveChats((receiveChats) => [...receiveChats, { ...newMessage }]);
       });
     }
   };
@@ -72,7 +72,7 @@ const Chat = () => {
       client.current.publish({
         destination: "/app/chat",
         body: JSON.stringify({
-          room: room_num.roomid,
+          room: room_num,
           message: chat,
           id: userInfo,
           name: userInfo,
@@ -88,6 +88,11 @@ const Chat = () => {
     console.log("disconnected");
   };
 
+  // 뒤로가기 누르면 원래 페이지로 이동
+  const backRoom = () => {
+    navi(`/room/${room_num}`);
+  };
+
   return (
     <>
       <h1 style={{ textAlign: "center" }}>실시간 채팅</h1>
@@ -99,7 +104,7 @@ const Chat = () => {
           margin: "0 auto",
         }}
       >
-        <div style={{ width: "80vh", height: "70vh" }}>
+        <div style={{ width: "80vh", height: "70vh", overflow: "auto" }}>
           {receiveChats.map((chat) => {
             if (chat.id === userInfo) {
               return (
@@ -144,8 +149,22 @@ const Chat = () => {
                 margin: "0 10px 0 10px",
               }}
             />
-            <Button variant="outlined" type="submit" endIcon={<SendIcon />}>
-              Send Message
+            <Button
+              variant="outlined"
+              type="submit"
+              endIcon={<SendIcon />}
+              style={{ width: "80px" }}
+            >
+              Send
+            </Button>
+            <Button
+              variant="outlined"
+              type="submit"
+              endIcon={<ExitToAppIcon />}
+              onClick={backRoom}
+              style={{ width: "80px", margin: "0 0 0 15px", color: "red" }}
+            >
+              Back
             </Button>
           </form>
         </div>
