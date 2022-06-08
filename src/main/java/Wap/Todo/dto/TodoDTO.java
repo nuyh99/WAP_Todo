@@ -14,7 +14,7 @@ import java.util.List;
 public class TodoDTO {
     private Long id;
     private Room room;
-    private Date deadline;
+    private String deadline;
     private String content;
     private Status status;
     private boolean isEditing;

@@ -87,4 +87,5 @@ class RoomServiceTest {
         assertThat(attend).isNotNull();
         assertThat(member2.getRooms().contains(attend)).isTrue();
     }
+
 }

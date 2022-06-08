@@ -1,5 +1,6 @@
 package Wap.Todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,11 +17,12 @@ public class Todo {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "room_num")
     private Room room;
 
-    private Date deadline;
+    private String deadline;
     private String content;
     private Status status;
     private boolean isEditing;
