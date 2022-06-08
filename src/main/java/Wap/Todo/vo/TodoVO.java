@@ -3,6 +3,7 @@ package Wap.Todo.vo;
 import Wap.Todo.domain.Todo;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -10,7 +11,8 @@ import java.util.PriorityQueue;
 @Getter
 @EqualsAndHashCode
 public class TodoVO {
-    private List<Todo> todos;
+    @Builder.Default
+    private List<Todo> todos=new ArrayList<>();
 
     public TodoVO(List<Todo> todos) {
         PriorityQueue<Todo> pq = new PriorityQueue<>((o1, o2) -> {
@@ -21,6 +23,7 @@ public class TodoVO {
         });
 
         pq.addAll(todos);
-        this.todos = pq.stream().toList();
+        while(!pq.isEmpty())
+            this.todos.add(pq.poll());
     }
 }
