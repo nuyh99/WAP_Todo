@@ -40,7 +40,7 @@ const AddRoom = () => {
 
   const hi = () => {
     console.log("asd");
-  }
+  };
 
   const onSubmitFunc = async (e) => {
     e.preventDefault();
@@ -63,11 +63,12 @@ const AddRoom = () => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "7px 15px 0 0" }}>
       <Button
         variant="contained"
         onClick={handleClickOpen}
         endIcon={<AddBoxIcon />}
+        style={{ width: "180px" }}
       >
         Add Room
       </Button>
