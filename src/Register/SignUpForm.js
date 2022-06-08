@@ -1,7 +1,8 @@
 import Validation from "./Validation";
 import { Link } from "react-router-dom";
 import UseForm from "./UseForm";
-
+import "./css/Form.css";
+import { Button } from "@mui/material";
 const SignUpForm = (prop) => {
   const { handleChange, handleFormSubmit, values, errors } = UseForm(
     prop.submitForm
@@ -15,7 +16,12 @@ const SignUpForm = (prop) => {
         </div>
         <form className="form-wrapper" onSubmit={handleFormSubmit}>
           <div className="name">
-            <label className="label">이름</label>
+            <label
+              className="label"
+              style={{ width: "70px", display: "inline-block" }}
+            >
+              이름
+            </label>
             <input
               className="input"
               type="text"
@@ -26,7 +32,12 @@ const SignUpForm = (prop) => {
             {errors.fullname && <p className="error">{errors.fullname}</p>}
           </div>
           <div className="name">
-            <label className="label">아이디</label>
+            <label
+              className="label"
+              style={{ width: "70px", display: "inline-block" }}
+            >
+              아이디
+            </label>
             <input
               className="input"
               type="text"
@@ -37,7 +48,12 @@ const SignUpForm = (prop) => {
             {errors.id && <p className="error">{errors.id}</p>}
           </div>
           <div className="email">
-            <label className="label">이메일</label>
+            <label
+              className="label"
+              style={{ width: "70px", display: "inline-block" }}
+            >
+              이메일
+            </label>
             <input
               className="input"
               type="email"
@@ -48,7 +64,12 @@ const SignUpForm = (prop) => {
             {errors.email && <p className="error">{errors.email}</p>}
           </div>
           <div className="password">
-            <label className="label">비밀번호</label>
+            <label
+              className="label"
+              style={{ width: "70px", display: "inline-block" }}
+            >
+              비밀번호
+            </label>
             <input
               className="input"
               type="password"
@@ -63,9 +84,17 @@ const SignUpForm = (prop) => {
               Create!
             </button>
             <br />
-            <Link to="/" className="submit">
-              Back
-            </Link>
+            <button className="submit">
+              <Link
+                to="/"
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                }}
+              >
+                Back
+              </Link>
+            </button>
           </div>
         </form>
       </div>

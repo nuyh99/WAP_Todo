@@ -42,20 +42,4 @@
   border: 1px solid rgb(152, 152, 152);
 }
 
-.btn {
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: 130px;
-  height: 50px;
-  font-size: 20px;
-  vertical-align: bottom;
-  border-radius: 10px;
-  transition: 0.3s;
-  font-family: "Bitter", serif;
-  border: 1px solid #a3a1a1;
-  color: #6e6e6e;
-}
-.btn:hover {
-  background-color: #a3a1a1;
-  color: #e3dede;
-}
+
