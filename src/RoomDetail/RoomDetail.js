@@ -42,7 +42,7 @@ function RoomDetail() {
   const getToDos = async () => {
     const res = await axios({
       method: "get",
-      url: `http://localhost:8080/room/${param}`,
+      url: `/room/${param}`,
     });
     if (res.status === 200) {
       console.log(res.data);
@@ -56,7 +56,7 @@ function RoomDetail() {
   const getInviteCode = async () => {
     const res = await axios({
       method: "get",
-      url: `http://localhost:8080/room/${param}/code`,
+      url: `/room/${param}/code`,
     });
     if (res.status === 200) {
       setInviteCode(res.data);
@@ -254,7 +254,7 @@ function RoomDetail() {
     console.log(id);
     const res = await axios({
       method: "delete",
-      url: `http://localhost:8080/room/${param}/${id}`,
+      url: `/room/${param}/${id}`,
     });
     if (res.status === 200) {
       console.log("delete");

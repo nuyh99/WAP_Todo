@@ -31,7 +31,7 @@ const EnterRoom = () => {
     setOpen(false);
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/room/invite",
+      url: "/room/invite",
       data: {
         code: enterCode,
       },

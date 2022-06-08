@@ -46,7 +46,7 @@ const AddRoom = () => {
     e.preventDefault();
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/room/create",
+      url: "/room/create",
       data: {
         title: title,
         introduce: introduce,

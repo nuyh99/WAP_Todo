@@ -50,7 +50,7 @@ const Rooms = () => {
   const getRooms = async () => {
     const res = await axios({
       method: "get",
-      url: "http://localhost:8080/user/rooms",
+      url: "/user/rooms",
     });
     setIsLoading(false);
     if (res.status === 200) {

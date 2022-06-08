@@ -31,7 +31,7 @@ const Login = () => {
   const login = async () => {
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/user/login",
+      url: "/user/login",
       data: {
         id: userId,
         pw: userPassword,

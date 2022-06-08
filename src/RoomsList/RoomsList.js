@@ -43,7 +43,7 @@ const RoomsList = (prop) => {
 
     const res = await axios({
       method: "delete",
-      url: `http://localhost:8080/room/${num}`,
+      url: `/room/${num}`,
     });
     setisLoading((prev) => !prev);
 
