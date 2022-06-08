@@ -4,6 +4,7 @@ package Wap.Todo.controller;
 import Wap.Todo.domain.Member;
 import Wap.Todo.domain.Room;
 import Wap.Todo.service.UserService;
+import Wap.Todo.vo.RoomVO;
 import lombok.experimental.Delegate;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class UserController {
     public List<Room> roomView(HttpSession session){
         String id = (String)session.getAttribute("memberId");
 
-        return userService.getRoomsById(id);
+        return new RoomVO(userService.getRoomsById(id)).getRooms();
     }
 
 }
