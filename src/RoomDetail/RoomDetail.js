@@ -186,7 +186,7 @@ function RoomDetail() {
   const setDate = (newDate) => {
     const setNewDate = newDate.toLocaleDateString();
     console.log(setNewDate);
-    setToDoAdd({ ...toDoAdd, date: setNewDate });
+    setToDoAdd({ ...toDoAdd, deadline: setNewDate });
   };
 
   // 새로운 toDo 등록 함수
@@ -198,7 +198,7 @@ function RoomDetail() {
       status: "READY",
       todoIndex: columns["READY"].items.length,
       content: toDoAdd.content,
-      deadline: "2022-06-08",
+      deadline: toDoAdd.deadline,
       isEditing: false,
       lastUpdateId: userName,
       id: uuid(),
@@ -522,7 +522,7 @@ function RoomDetail() {
                                             padding: "0px 0px 0px 0px",
                                           }}
                                         >
-                                          {item.date}
+                                          {item.deadline}
                                         </Button>
                                         <div
                                           style={{
@@ -590,12 +590,11 @@ function RoomDetail() {
                 <DesktopDatePicker
                   label="Date desktop"
                   inputFormat="MM/dd/yyyy"
-                  value={toDoAdd.date}
+                  value={toDoAdd.deadline}
                   onChange={setDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-
               <Button
                 type="submit"
                 endIcon={<PublishIcon />}
