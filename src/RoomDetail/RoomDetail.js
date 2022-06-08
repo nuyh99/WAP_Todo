@@ -216,7 +216,7 @@ function RoomDetail() {
   };
 
   // toDo 삭제
-  const toDoDeleteFunc = (e) => {
+  const toDoDeleteFunc = async (e) => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       const { id, value } = e.target;
       console.log(id, value);
@@ -228,14 +228,13 @@ function RoomDetail() {
       );
 
       // filter를 통해 내가 삭제를 원하는 item을 빼고 새 배열을 생성
-      console.log(columns[id]);
+
       const updateArr = columns[id].items.filter((delId) => {
         if (delId.id === value) {
           sortIndex = delId.todoIndex;
         }
         return delId.id !== value;
       });
-      console.log(sortIndex);
       updateArr.forEach((element) => {
         if (element.todoIndex > sortIndex) {
           element.todoIndex -= 1;
@@ -243,8 +242,22 @@ function RoomDetail() {
       });
       const newCols = [...anotherConditionArr, ...updateArr];
       console.log("delete and new cols", newCols);
-      sendToDosFunc(newCols);
+
+      await deleteToDos(value);
+
+      await sendToDosFunc(newCols);
       setColumnsFromBackend([...anotherConditionArr, ...updateArr]);
+    }
+  };
+
+  const deleteToDos = async (id) => {
+    console.log(id);
+    const res = await axios({
+      method: "delete",
+      url: `http://localhost:8080/room/${param}/${id}`,
+    });
+    if (res.status === 200) {
+      console.log("delete");
     }
   };
 
