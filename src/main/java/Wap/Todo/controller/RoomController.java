@@ -67,6 +67,8 @@ public class RoomController {
     @ResponseBody
     public Todo deleteTodo(@PathVariable("room_num") Long num,
                              @PathVariable ("id") String id){
+        System.out.println("num = " + num);
+        System.out.println("id = " + id);
         return roomService.deleteTodo(num, id);
     }
 
