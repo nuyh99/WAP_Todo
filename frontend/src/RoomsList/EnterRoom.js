@@ -31,7 +31,7 @@ const EnterRoom = () => {
     setOpen(false);
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/room/invite",
+      url: "/room/invite",
       data: {
         code: enterCode,
       },
@@ -51,11 +51,12 @@ const EnterRoom = () => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "7px 15px 0 0" }}>
       <Button
         variant="contained"
         onClick={handleEnterRoomClick}
         endIcon={<AddBoxIcon />}
+        style={{ width: "180px" }}
       >
         Enter Room
       </Button>

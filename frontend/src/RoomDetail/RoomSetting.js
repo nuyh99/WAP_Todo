@@ -19,10 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const RoomSetting = () => {
-  const param = useParams(); // 방 url을 가져와서 초대코드 생성
-  const room_Id = param.roomid;
-
+const RoomSetting = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -39,6 +36,7 @@ const RoomSetting = () => {
         variant="outlined"
         onClick={handleClickOpen}
         endIcon={<SettingsApplicationsOutlinedIcon />}
+        style={{ width: "145px", margin: "5px 0 0 10px" }}
       >
         방 상세정보
       </Button>
@@ -69,12 +67,12 @@ const RoomSetting = () => {
           </Toolbar>
         </AppBar>
         <List>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemText primary="방장" secondary="Titania" />
-          </ListItem>
+          </ListItem> */}
           <Divider />
           <ListItem button>
-            <ListItemText primary="초대코드" secondary={room_Id} />
+            <ListItemText primary="초대코드" secondary={props.inviteCode} />
           </ListItem>
         </List>
       </Dialog>

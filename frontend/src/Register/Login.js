@@ -2,7 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./css/Login.css";
-
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Input,
+  TextField,
+} from "@mui/material";
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState({
     userId: "",
@@ -23,7 +31,7 @@ const Login = () => {
   const login = async () => {
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/user/login",
+      url: "/user/login",
       data: {
         id: userId,
         pw: userPassword,
@@ -34,7 +42,8 @@ const Login = () => {
         console.log("로그인 실패");
       } else {
         sessionStorage.setItem("isAuth", true);
-        sessionStorage.setItem("name", res.data);
+        sessionStorage.setItem("name", res.data.id);
+        console.log(res.data);
         setInterval(() => {
           window.location.replace("/");
         }, 1000);
@@ -49,7 +58,7 @@ const Login = () => {
         <div>
           <form className="login" onSubmit={onSubmitFunc}>
             <p className="p">
-              <input
+              <Input
                 type="text"
                 className="userid"
                 placeholder="ID : "
@@ -60,7 +69,7 @@ const Login = () => {
               />
             </p>
             <p>
-              <input
+              <Input
                 type="password"
                 name="userPassword"
                 placeholder="PASSWORD : "
@@ -70,13 +79,32 @@ const Login = () => {
               />
             </p>
             <div>
-              <input type="submit" value="Login" className="btn"></input>
-
-              <Link to="/signup" className="btn">
-                회원가입
-              </Link>
+              <Button
+                type="submit"
+                value="Login"
+                variant="outlined"
+                style={{ margin: "25px 0 0 0", color: "gray" }}
+              >
+                로그인
+              </Button>
+              <Button variant="outlined" style={{ margin: "25px 0 0 0" }}>
+                <Link
+                  to="/signup"
+                  style={{
+                    textDecoration: "none",
+                    color: "gray",
+                  }}
+                >
+                  회원가입
+                </Link>
+              </Button>
             </div>
-            아이디/비밀번호 찾기
+            <Button
+              variant="outlined"
+              style={{ margin: "10px 0 0 0", color: "gray" }}
+            >
+              아이디/비밀번호 찾기
+            </Button>
           </form>
         </div>
       </div>

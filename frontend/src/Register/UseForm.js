@@ -25,7 +25,7 @@ const UseForm = (submitForm) => {
 
     const res = await axios({
       method: "post",
-      url: "http://localhost:8080/user/register",
+      url: "/register",
       data: values,
     });
 
@@ -35,6 +35,9 @@ const UseForm = (submitForm) => {
         console.log("회원가입 성공!");
         console.log(res);
         setDataIsCorrect(true);
+        setInterval(() => {
+          window.location.replace("/");
+        }, 1000);
       } else {
         // 중복, 이름 글자 수 초과 등 구분하기
         window.alert("중복된 아이디입니다. 다시 입력해주세요.");

@@ -50,7 +50,7 @@ const Rooms = () => {
   const getRooms = async () => {
     const res = await axios({
       method: "get",
-      url: "http://localhost:8080/user/rooms",
+      url: "/user/rooms",
     });
     setIsLoading(false);
     if (res.status === 200) {
@@ -67,12 +67,24 @@ const Rooms = () => {
   return (
     <div>
       {isLoading ? <Loading /> : ""}
-      <div style={{ textAlign: "right" }}>접속중인 아이디 : {name}</div>
+      <div
+        style={{
+          textAlign: "right",
+          margin: "0 15px 0 0",
+          fontStyle: "italic",
+        }}
+      >
+        접속중인 아이디 : {name}
+      </div>
       <UserDispatch.Provider value={dispatch}>
         <div style={{ textAlign: "right" }}>
           <AddRoom />
           <EnterRoom />
-          <Button onClick={logoutFunc} variant="outlined">
+          <Button
+            onClick={logoutFunc}
+            variant="outlined"
+            style={{ margin: "7px 15px 0 0", width: "180px" }}
+          >
             로그아웃
           </Button>
         </div>
