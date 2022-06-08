@@ -25,6 +25,7 @@ const UseForm = (submitForm) => {
 
     const res = await axios({
       method: "post",
+      // url: "http://localhost:8080/register",
       url: "/register",
       data: values,
     });

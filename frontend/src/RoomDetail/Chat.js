@@ -53,7 +53,9 @@ const Chat = () => {
 
   const connect = () => {
     client.current = new Client({
-      brokerURL: "ws://localhost:8080/ws/websocket",
+      // brokerURL: "ws://localhost:8080/ws/websocket",
+      brokerURL: "ws://50.18.213.243:8080/ws/websocket",
+
       debug: function (str) {
         console.log(str);
       },
@@ -106,7 +108,7 @@ const Chat = () => {
       >
         <div style={{ width: "80vh", height: "70vh", overflow: "auto" }}>
           {receiveChats.map((chat) => {
-            if (chat.id === userInfo) {
+            if (chat.id !== userInfo) {
               return (
                 <div
                   key={chat.uniId}
