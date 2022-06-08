@@ -69,4 +69,11 @@ public class RoomController {
                              @PathVariable ("id") Long id){
         return roomService.deleteTodo(num, id);
     }
+
+
+    @GetMapping("/code/{room_num}")
+    @ResponseBody
+    public String sendCode(@PathVariable("room_num") Long num){
+        return roomService.sendCode(num);
+    }
 }

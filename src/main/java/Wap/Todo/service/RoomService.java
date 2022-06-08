@@ -119,4 +119,9 @@ public class RoomService {
 
         return null;
     }
+
+    @Transactional
+    public String sendCode(Long num){
+        return roomRepository.getById(num).getCode();
+    }
 }
