@@ -47,19 +47,6 @@ const ToDoDetail = (prop) => {
                 <TextField
                   autoFocus
                   margin="dense"
-                  name="title"
-                  label="제목바꾸기"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  required
-                  onChange={onChangeFunc}
-                  value={writeTodo.title}
-                />
-                <br />
-                <TextField
-                  autoFocus
-                  margin="dense"
                   name="content"
                   label="내용 바꾸기"
                   type="text"
@@ -68,7 +55,7 @@ const ToDoDetail = (prop) => {
                   value={writeTodo.content}
                   onChange={onChangeFunc}
                   multiline
-                  rows={4}
+                  rows={2}
                   required
                 />
               </DialogContent>

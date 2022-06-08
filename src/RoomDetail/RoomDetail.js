@@ -26,9 +26,12 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { WifiTetheringErrorRounded } from "@mui/icons-material";
 
 function RoomDetail() {
   const param = useParams().roomid; // url에서 roomid가져오기
+
+  const [userName, setName] = useState(sessionStorage.getItem("name"));
 
   const [inviteCode, setInviteCode] = useState("");
 
@@ -129,7 +132,7 @@ function RoomDetail() {
           items: destItems,
         },
       });
-      sendToDosFunc();
+      sendToDosFunc(columnsFromBackend);
     } else {
       // 같은 Droppable에서 바꿀 때
       const column = columns[source.droppableId];
@@ -159,7 +162,7 @@ function RoomDetail() {
           items: copiedItems,
         },
       });
-      sendToDosFunc();
+      sendToDosFunc(columnsFromBackend);
     }
   };
   // Drag And Drop 구현부 끝부분
@@ -197,13 +200,17 @@ function RoomDetail() {
       content: toDoAdd.content,
       deadline: "2022-06-08",
       isEditing: false,
-      lastUpdateId: "test",
+      lastUpdateId: userName,
       id: uuid(),
     };
 
     // 추가한 toDo를 columns에 추가
+
+    const newArr = [...columnsFromBackend, newItem];
+
     setColumnsFromBackend([...columnsFromBackend, newItem]);
 
+    sendToDosFunc(newArr);
     // 등록하기 버튼 클릭스 일정 추가하기 dialog 닫기
     setIsClick((prev) => !prev);
   };
@@ -212,7 +219,7 @@ function RoomDetail() {
   const toDoDeleteFunc = (e) => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       const { id, value } = e.target;
-      console.log(value);
+      console.log(id, value);
       let sortIndex = 0;
 
       // 다른 Condition을 가진 배열 가져오기
@@ -224,16 +231,19 @@ function RoomDetail() {
       console.log(columns[id]);
       const updateArr = columns[id].items.filter((delId) => {
         if (delId.id === value) {
-          sortIndex = delId.index;
+          sortIndex = delId.todoIndex;
         }
         return delId.id !== value;
       });
-
+      console.log(sortIndex);
       updateArr.forEach((element) => {
-        if (element.index > sortIndex) {
-          element.index -= 1;
+        if (element.todoIndex > sortIndex) {
+          element.todoIndex -= 1;
         }
       });
+      const newCols = [...anotherConditionArr, ...updateArr];
+      console.log("delete and new cols", newCols);
+      sendToDosFunc(newCols);
       setColumnsFromBackend([...anotherConditionArr, ...updateArr]);
     }
   };
@@ -272,12 +282,11 @@ function RoomDetail() {
     deadline: "",
     isEditing: false,
     id: "",
-    lastUpdateId: "test",
+    lastUpdateId: userName,
   });
 
   // todo들이 바뀌면
   useEffect(() => {
-    console.log("todos is change!");
     itemforEach(columnsFromBackend);
   }, [columnsFromBackend]);
 
@@ -308,12 +317,12 @@ function RoomDetail() {
     setColumns(newToDos);
   };
 
+  const sendToDosFunc = (sendToDos) => {
+    handler(sendToDos);
+  };
+
   /* todo websocket*/
   const client = useRef(null);
-
-  const sendToDosFunc = () => {
-    handler();
-  };
 
   useEffect(() => {
     connect();
@@ -345,16 +354,16 @@ function RoomDetail() {
     client.current.activate();
   };
 
-  const handler = () => {
+  const handler = (sendToDos1) => {
     if (client.current != null) {
       if (!client.current.connected) {
         return;
       }
-      console.log(columnsFromBackend);
+      console.log("handler", sendToDos1);
       client.current.publish({
         destination: `/app/todo/${param}`,
         body: JSON.stringify({
-          todos: columnsFromBackend,
+          todos: sendToDos1,
         }),
       });
     }
@@ -386,11 +395,22 @@ function RoomDetail() {
   /* 05.08 ToDo 수정 오류 */
   const writeTodoFunc = (childToDo) => {
     const fixToDo = childToDo;
-    console.log(fixToDo);
-    setColumns([
-      ...columns.filter((element) => element.id !== fixToDo.id),
+    fixToDo.lastUpdateId = userName;
+    console.log("fixed!!!", fixToDo);
+
+    const newCol = [
+      ...columnsFromBackend.filter((element) => element.id !== fixToDo.id),
+      fixToDo,
+    ];
+
+    setColumnsFromBackend((tt) => [
+      ...tt.filter((element) => element.id !== fixToDo.id),
       fixToDo,
     ]);
+
+    console.log("new col", newCol);
+    console.log(columnsFromBackend);
+    sendToDosFunc(newCol);
   };
 
   console.log(columnsFromBackend);
@@ -415,7 +435,7 @@ function RoomDetail() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  width: "100%",
+                  width: "320px",
                 }}
                 key={columnId}
               >
@@ -432,7 +452,7 @@ function RoomDetail() {
                               ? "skyblue"
                               : "lightgrey",
                             padding: 4,
-                            width: "350px",
+                            width: "290px",
                             borderRadius: "25px 25px 25px 25px",
                           }}
                         >
@@ -465,33 +485,6 @@ function RoomDetail() {
                                       <div>
                                         <Button
                                           style={{
-                                            fontSize: "15px",
-                                            color: "black",
-                                            minWidth: "1px",
-                                            padding: "0px 0px 0px 0px",
-                                          }}
-                                          onClick={(e) =>
-                                            onClickFunczz(item, e)
-                                          }
-                                        >
-                                          <div
-                                            style={{
-                                              fontSize: "12px",
-                                              whiteSpace: "nowrap",
-                                              overflow: "hidden",
-                                              textOverflow: "ellipsis",
-                                              maxWidth: "300px",
-                                              textAlign: "left",
-                                              fontWeight: "bold",
-                                            }}
-                                          >
-                                            {item.title}
-                                          </div>
-                                        </Button>
-                                      </div>
-                                      <div>
-                                        <Button
-                                          style={{
                                             fontSize: "12px",
                                             color: "white",
                                             padding: "0px 0px 0px 0px",
@@ -507,7 +500,7 @@ function RoomDetail() {
                                               whiteSpace: "nowrap",
                                               overflow: "hidden",
                                               textOverflow: "ellipsis",
-                                              maxWidth: "300px",
+                                              maxWidth: "290px",
                                               textAlign: "left",
                                             }}
                                           >
@@ -542,7 +535,7 @@ function RoomDetail() {
                                             style={{
                                               fontSize: "10px",
                                               height: "20px",
-                                              padding: "0px 0px 0px 0px",
+                                              padding: "0px 0px 0px 125px",
                                             }}
                                             color="error"
                                             onClick={toDoDeleteFunc}
