@@ -3,6 +3,7 @@ package Wap.Todo.controller;
 import Wap.Todo.dto.MessageDTO;
 import Wap.Todo.dto.TodoDTO;
 import Wap.Todo.service.RoomService;
+import Wap.Todo.vo.TodoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -39,6 +40,6 @@ public class ChatController {
     public void updateTodo(@Payload TodoDTO todos, @DestinationVariable("room") String room) {
         todos.getTodos().forEach(o->roomService.updateTodo(Long.valueOf(room), o.convertToTodo(o)));
 
-        template.convertAndSend("/topic/todo/"+room, roomService.getTodos(Long.valueOf(room)));
+        template.convertAndSend("/topic/todo/"+room, new TodoVO(roomService.getTodos(Long.valueOf(room))).getTodos());
     }
 }
