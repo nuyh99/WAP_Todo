@@ -63,37 +63,56 @@ const RoomsList = (prop) => {
   return (
     <div>
       {isLoading ? <Loading /> : ""}
-      <h1 style={{ textAlign: "center" }}>방목록</h1>
-      <div style={{ width: "175vh" }}>
-        {prop.rooms.map((detail) => {
-          return (
-            <div
-              key={detail.code}
-              style={{
-                float: "left",
-                margin: "0px 0px 0px 10px",
-                border: "3px solid black",
-                width: "50vh",
-                boxSizing: "borderbox",
-              }}
-            >
-              <Link
-                to={`/room/${detail.num}`}
-                style={{ color: "black", textDecoration: "none" }}
+      <div
+        style={{
+          border: "2px solid skyblue",
+          height: "500px",
+          width: "1000px",
+          maxWidth: "1000px",
+          borderRadius: "45px 45px 45px 45px",
+          margin: "15px auto",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>방목록</h1>
+        <div style={{ width: "1000px" }}>
+          {prop.rooms.map((detail) => {
+            return (
+              <div
+                key={detail.code}
+                style={{
+                  float: "left",
+                  margin: "15px 0px 0px 25px",
+                  border: "3px solid black",
+                  borderRadius: "20px 20px 20px 20px",
+                  width: "450px",
+                  boxSizing: "borderbox",
+                }}
               >
-                방 이름 : {detail.title}
-                <br />방 한줄 소개 : {detail.introduce}
-              </Link>
-              <Button
-                onClick={(e) => onClickDelete(e, detail)}
-                endIcon={<DeleteForeverIcon />}
-                style={{ color: "red" }}
-              >
-                삭제
-              </Button>
-            </div>
-          );
-        })}
+                <Link
+                  to={`/room/${detail.num}`}
+                  style={{
+                    color: "black",
+                    textDecoration: "none",
+                    margin: "0 0 0 10px",
+                  }}
+                >
+                  방 이름 : {detail.title}
+                  <br />
+                  <label style={{ margin: "0 0 0 10px" }}>
+                    방 소개 : {detail.introduce}
+                  </label>
+                </Link>
+                <Button
+                  onClick={(e) => onClickDelete(e, detail)}
+                  endIcon={<DeleteForeverIcon />}
+                  style={{ color: "red" }}
+                >
+                  삭제
+                </Button>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
