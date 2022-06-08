@@ -66,7 +66,7 @@ public class RoomController {
     @DeleteMapping("/{room_num}/{id}")
     @ResponseBody
     public Todo deleteTodo(@PathVariable("room_num") Long num,
-                             @PathVariable ("id") Long id){
+                             @PathVariable ("id") String id){
         return roomService.deleteTodo(num, id);
     }
 

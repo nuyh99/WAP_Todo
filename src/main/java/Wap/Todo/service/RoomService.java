@@ -98,17 +98,17 @@ public class RoomService {
     //투두 등록 및 수정
     @Transactional
     public Todo updateTodo(Long num, Todo todo) {
-        if (todo.getId() == null) {
-            todo.setRoom(roomRepository.getById(num));
+        todo.setRoom(roomRepository.getById(num));
+
+        if(!todoRepository.existsById(todo.getId()))
             roomRepository.getById(num).getTodos().add(todo);
-        }
 
         return todoRepository.save(todo);
     }
 
     //투두 삭제
     @Transactional
-    public Todo deleteTodo(Long num, Long id) {
+    public Todo deleteTodo(Long num, String id) {
         Optional<Todo> byId = todoRepository.findById(id);
 
         if (byId.isPresent()) {

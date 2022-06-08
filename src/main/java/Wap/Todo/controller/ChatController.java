@@ -37,7 +37,6 @@ public class ChatController {
     //투두 생성 및 수정
     @MessageMapping("/todo/{room}")
     public void updateTodo(@Payload TodoDTO todos, @DestinationVariable("room") String room) {
-        System.out.println(todos.getTodos().size());
         todos.getTodos().forEach(o->roomService.updateTodo(Long.valueOf(room), o.convertToTodo(o)));
 
         template.convertAndSend("/topic/todo/"+room, roomService.getTodos(Long.valueOf(room)));
