@@ -11,10 +11,11 @@ import java.util.PriorityQueue;
 @Getter
 @EqualsAndHashCode
 public class TodoVO {
-    @Builder.Default
-    private List<Todo> todos=new ArrayList<>();
+    private List<Todo> todos;
 
     public TodoVO(List<Todo> todos) {
+        this.todos = new ArrayList<>();
+
         PriorityQueue<Todo> pq = new PriorityQueue<>((o1, o2) -> {
             if (o1.getStatus() == o2.getStatus())
                 return (int) (o1.getTodoIndex() - o2.getTodoIndex());
