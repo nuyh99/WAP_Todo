@@ -42,6 +42,7 @@ function RoomDetail() {
   const getToDos = async () => {
     const res = await axios({
       method: "get",
+      // url: `http://localhost:8080/room/${param}`,
       url: `/room/${param}`,
     });
     if (res.status === 200) {
@@ -57,6 +58,7 @@ function RoomDetail() {
     const res = await axios({
       method: "get",
       url: `/room/${param}/code`,
+      // url: `http://localhost:8080/room/${param}/code`,
     });
     if (res.status === 200) {
       setInviteCode(res.data);
@@ -255,6 +257,7 @@ function RoomDetail() {
     const res = await axios({
       method: "delete",
       url: `/room/${param}/${id}`,
+      // url: `http://localhost:8080/room/${param}/${id}`,
     });
     if (res.status === 200) {
       console.log("delete");
@@ -356,7 +359,8 @@ function RoomDetail() {
 
   const connect = () => {
     client.current = new Client({
-      brokerURL: "ws://localhost:8080/ws/websocket",
+      // brokerURL: "ws://localhost:8080/ws/websocket",
+      brokerURL: "ws://50.18.213.243:8080/ws/websocket",
       debug: function (str) {
         console.log(str);
       },

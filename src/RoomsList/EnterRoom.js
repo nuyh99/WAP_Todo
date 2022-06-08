@@ -32,6 +32,7 @@ const EnterRoom = () => {
     const res = await axios({
       method: "post",
       url: "/room/invite",
+      // url: "http://localhost:8080/room/invite",
       data: {
         code: enterCode,
       },

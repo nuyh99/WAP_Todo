@@ -32,6 +32,7 @@ const Login = () => {
     const res = await axios({
       method: "post",
       url: "/user/login",
+      // url: "http://localhost:8080/user/login",
       data: {
         id: userId,
         pw: userPassword,
