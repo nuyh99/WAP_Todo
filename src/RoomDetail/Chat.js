@@ -132,7 +132,7 @@ const Chat = () => {
                     textAlign: "right",
                   }}
                 >
-                  {chat.message} : [{chat.name}]
+                  {chat.message} : [나]
                 </div>
               );
             }
