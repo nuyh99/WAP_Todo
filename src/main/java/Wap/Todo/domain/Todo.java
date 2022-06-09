@@ -1,6 +1,7 @@
 package Wap.Todo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,8 @@ public class Todo {
     private String deadline;
     private String content;
     private Status status;
+
+    @JsonProperty(value = "isEditing")
     private boolean isEditing;
 
     @Builder.Default
