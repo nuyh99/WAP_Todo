@@ -2,6 +2,7 @@ package Wap.Todo.dto;
 
 import Wap.Todo.domain.Status;
 import Wap.Todo.domain.Todo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -14,7 +15,10 @@ public class TodoDTO {
     private String deadline;
     private String content;
     private Status status;
+
+    @JsonProperty(value = "isEditing")
     private boolean isEditing;
+
     private Long todoIndex;
     private String lastUpdateId;
 
