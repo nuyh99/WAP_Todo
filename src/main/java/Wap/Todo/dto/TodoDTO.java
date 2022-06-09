@@ -23,7 +23,7 @@ public class TodoDTO {
     public Todo convertToTodo(TodoDTO dto) {
 
         return Todo.builder()
-                .isEditing(dto.isEditing())
+                .isEditing(dto.isEditing)
                 .content(dto.content)
                 .deadline(dto.deadline)
                 .id(dto.id)
