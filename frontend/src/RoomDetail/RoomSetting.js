@@ -30,13 +30,30 @@ const RoomSetting = (props) => {
     setOpen(false);
   };
 
+  const onClickInviteCode = (e) => {
+    const { outerText } = e.target;
+    console.log(e.target.outerText);
+    if (navigator.clipboard) {
+      navigator.clipboard
+        .writeText(outerText)
+        .then(() => {
+          alert("클립보드에 복사되었습니다.");
+        })
+        .catch(() => {
+          alert("복사를 다시 시도해주세요.");
+        });
+    } else {
+      // 흐름 2.
+    }
+  };
+
   return (
     <div>
       <Button
         variant="outlined"
         onClick={handleClickOpen}
         endIcon={<SettingsApplicationsOutlinedIcon />}
-        style={{ width: "145px", margin: "5px 0 0 10px" }}
+        style={{ width: "145px", margin: "5px 15px 0 10px" }}
       >
         방 상세정보
       </Button>
@@ -71,8 +88,11 @@ const RoomSetting = (props) => {
             <ListItemText primary="방장" secondary="Titania" />
           </ListItem> */}
           <Divider />
-          <ListItem button>
-            <ListItemText primary="초대코드" secondary={props.inviteCode} />
+          <ListItem>
+            <ListItemText primary="초대코드" />
+          </ListItem>
+          <ListItem button onClick={onClickInviteCode}>
+            <ListItemText secondary={props.inviteCode} />
           </ListItem>
         </List>
       </Dialog>

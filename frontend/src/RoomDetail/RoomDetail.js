@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import uuid from "react-uuid";
 import * as React from "react";
@@ -8,6 +8,7 @@ import * as React from "react";
 import RoomSetting from "./RoomSetting";
 import ToDoDetail from "./ToDoDetail";
 
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Client } from "@stomp/stompjs";
 import AddTaskIcon from "@mui/icons-material/AddTask";
@@ -195,6 +196,11 @@ function RoomDetail() {
   const toDoAddFunc = (e) => {
     e.preventDefault();
     // newItem을 작성한 걸로
+
+    if (toDoAdd.deadline === undefined) {
+      toDoAdd.deadline = new Date().toLocaleDateString();
+    }
+    console.log(toDoAdd.deadline);
 
     const newItem = {
       status: "READY",
@@ -432,6 +438,12 @@ function RoomDetail() {
 
   console.log(columnsFromBackend);
 
+  const navi = useNavigate();
+
+  const backRoomList = () => {
+    navi(`/`);
+  };
+
   return (
     <>
       <div
@@ -494,6 +506,7 @@ function RoomDetail() {
                                         backgroundColor: snapshot.isDragging
                                           ? "#3c473a"
                                           : "grey",
+
                                         color: "black",
                                         ...provided.draggableProps.style,
                                         borderRadius: "25px 25px 25px 25px",
@@ -639,7 +652,6 @@ function RoomDetail() {
             >
               일정 추가하기
             </Button>
-            <Button onClick={sendToDosFunc}>todotest</Button>
           </>
         )}
       </div>
@@ -657,7 +669,7 @@ function RoomDetail() {
       )}
       <div style={{ textAlign: "right" }}>
         <Button
-          style={{ width: "145px", margin: "5px 0 0 10px" }}
+          style={{ width: "145px", margin: "5px 15px 0 10px" }}
           variant="outlined"
           endIcon={<ChatIcon />}
         >
@@ -671,6 +683,17 @@ function RoomDetail() {
             채팅
           </Link>
         </Button>
+        <div>
+          <Button
+            variant="outlined"
+            type="submit"
+            endIcon={<ExitToAppIcon />}
+            onClick={backRoomList}
+            style={{ width: "145px", margin: "5px 15px 0 10px" }}
+          >
+            Back
+          </Button>
+        </div>
       </div>
     </>
   );
