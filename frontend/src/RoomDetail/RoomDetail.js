@@ -98,11 +98,8 @@ function RoomDetail() {
       const destItems = [...destColumn.items];
 
       const [removed] = sourceItems.splice(source.index, 1);
-      console.log(removed);
-      console.log(sourceItems);
+      removed.lastUpdateId = userName;
 
-      // sourceItem의 index 재정렬
-      console.log(sourceItems);
       sourceItems.forEach((element) => {
         if (element.todoIndex > source.index) {
           element.todoIndex -= 1;
@@ -141,7 +138,9 @@ function RoomDetail() {
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
+      console.log("same col", removed);
 
+      removed.lastUpdateId = userName;
       removed.todoIndex = destination.index;
 
       copiedItems.splice(destination.index, 0, removed);
@@ -407,8 +406,30 @@ function RoomDetail() {
   const [writeTodo, setWriteTodo] = useState();
 
   const onClickFunczz = (item, e) => {
-    setWriteTodo(item);
+    console.log("hi", item);
+
+    if (item.isEditing === true) {
+      window.alert("누군가가 수정중입니다. 나중에 다시 시도해 주세요");
+      return;
+    }
+
+    const editCol = item; // 고치는 TODO
+    editCol.isEditing = true;
+
+    // 안고치는 TODO
+    const notEditCols = columnsFromBackend.filter((ele) => {
+      return ele.id !== item.id;
+    });
+
+    console.log("안고치는 놈들", notEditCols);
+    console.log("실제놈들", columnsFromBackend);
+
+    const midCols = [...notEditCols, editCol];
+    console.log(midCols);
+
+    sendToDosFunc(midCols);
     setOpen(true);
+    setWriteTodo(item);
   };
 
   const closeDialog = () => {
@@ -565,7 +586,7 @@ function RoomDetail() {
                                             style={{
                                               fontSize: "10px",
                                               height: "20px",
-                                              padding: "0px 0px 0px 125px",
+                                              padding: "0px 0px 0px 0px",
                                             }}
                                             color="error"
                                             onClick={toDoDeleteFunc}
@@ -576,6 +597,9 @@ function RoomDetail() {
                                           >
                                             삭제
                                           </Button>
+                                          <label style={{ fontSize: "12px" }}>
+                                            최종 수정자 : {item.lastUpdateId}
+                                          </label>
                                         </div>
                                       </div>
                                     </div>

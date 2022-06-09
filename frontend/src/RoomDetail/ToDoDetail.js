@@ -8,6 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CreateIcon from "@mui/icons-material/Create";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const ToDoDetail = (prop) => {
   const [writeTodo, setWriteTodo] = useState("");
@@ -19,11 +21,14 @@ const ToDoDetail = (prop) => {
   }, []);
 
   const handleClose = (e) => {
+    writeTodo.isEditing = false;
+    prop.writeTodoFunc(writeTodo);
     prop.func();
   };
 
   const onSubmitFunc = (e) => {
     e.preventDefault();
+    writeTodo.isEditing = false;
     prop.writeTodoFunc(writeTodo);
     prop.func();
   };
@@ -34,6 +39,12 @@ const ToDoDetail = (prop) => {
     setWriteTodo({ ...writeTodo, [name]: value });
   };
 
+  const setDate = (newDate) => {
+    const setNewDate = newDate.toLocaleDateString();
+    console.log(setNewDate);
+    setWriteTodo({ ...writeTodo, deadline: setNewDate });
+  };
+
   return (
     <>
       {writeTodo === "" ? (
@@ -42,7 +53,7 @@ const ToDoDetail = (prop) => {
         <div>
           <Dialog open={open} onClose={handleClose} fullWidth>
             <form onSubmit={onSubmitFunc}>
-              <DialogTitle>{prop.writeTodo.title}</DialogTitle>
+              <DialogTitle>{prop.writeTodo.content}</DialogTitle>
               <DialogContent>
                 <TextField
                   autoFocus
@@ -60,6 +71,17 @@ const ToDoDetail = (prop) => {
                 />
               </DialogContent>
               <DialogActions>
+                <div style={{ margin: "0px 40px 0px 0px" }}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      label="Date desktop"
+                      inputFormat="MM/dd/yyyy"
+                      value={writeTodo.deadline}
+                      onChange={setDate}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
                 <Button
                   type="submit"
                   variant="outlined"
